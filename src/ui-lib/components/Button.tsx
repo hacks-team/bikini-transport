@@ -49,7 +49,7 @@ const buttonRecipe = cva({
     color: {
       primary: {
         bgColor: 'primary.normal',
-        color: 'label.normal',
+        color: 'label.inverse',
         _active: {
           bgColor: 'primary.strong',
         },

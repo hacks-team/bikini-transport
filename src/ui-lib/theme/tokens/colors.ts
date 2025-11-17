@@ -5,16 +5,16 @@ export const colors = defineTokens.colors({
 
   primary: {
     normal: {
-      value: "#FFEB60",
+      value: "#3182f6",
     },
     strong: {
-      value: "#FFE04B",
+      value: "#1b64da",
     },
     heavy: {
-      value: "#FFD334",
+      value: "#1957c2",
     },
     light: {
-      value: "#FFFAD6",
+      value: "#e8f3ff",
     },
   },
   secondary: {
@@ -43,6 +43,9 @@ export const colors = defineTokens.colors({
     },
     disable: {
       value: "#999999",
+    },
+    inverse: {
+      value: "#FFFFFF",
     },
   },
 
