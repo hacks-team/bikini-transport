@@ -190,4 +190,31 @@ describe("home", () => {
     // 출발지는 변경되지 않았는지 확인 (출발지 버튼 내부의 텍스트 확인)
     expect(departureButtonAfterSelect?.textContent).toContain("버스 정류장 이름1");
   });
+
+  it("[테스트] 출발지와 도착지 스왑 버튼을 누르면 출발지와 도착지가 바뀐다", async () => {
+    const user = userEvent.setup();
+    renderWith(<HomePage />, { route: "/" });
+
+    // 초기 상태 확인
+    expect(screen.getByText("JINGJING BILA")).toBeInTheDocument();
+    expect(screen.getByText("BIKINI BOTTOM")).toBeInTheDocument();
+
+    // 스왑 전 상태 확인
+    const departureButtonBeforeSwap = screen.getByText("Departure").closest("button");
+    const arrivalButtonBeforeSwap = screen.getByText("Arrival").closest("button");
+    expect(departureButtonBeforeSwap?.textContent).toContain("JINGJING BILA");
+    expect(arrivalButtonBeforeSwap?.textContent).toContain("BIKINI BOTTOM");
+
+    // 스왑 버튼 클릭
+    const swapButton = screen.getByLabelText("출발지와 도착지 바꾸기");
+    await user.click(swapButton);
+
+    // 스왑 후 상태 확인
+    await waitFor(() => {
+      const departureButtonAfterSwap = screen.getByText("Departure").closest("button");
+      const arrivalButtonAfterSwap = screen.getByText("Arrival").closest("button");
+      expect(departureButtonAfterSwap?.textContent).toContain("BIKINI BOTTOM");
+      expect(arrivalButtonAfterSwap?.textContent).toContain("JINGJING BILA");
+    });
+  });
 });
