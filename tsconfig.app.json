@@ -5,7 +5,7 @@
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "types": ["vite/client", "vitest", "vitest/globals"],
+    "types": ["vite/client"],
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -30,5 +30,5 @@
       "styled-system/*": ["styled-system/*"]
     }
   },
-  "include": ["src", "styled-system", "__tests__"]
+  "include": ["src", "styled-system"]
 }
