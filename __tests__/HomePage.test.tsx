@@ -201,4 +201,30 @@ describe('home', () => {
       expect(arrivalButtonAfterSwap?.textContent).toContain('JINGJING BILA')
     })
   })
+
+  it('[테스트] 달력 아이콘을 클릭하면 DateTimePicker가 열린다', async () => {
+    const user = userEvent.setup()
+    renderWith(<HomePage />, { route: '/' })
+
+    await waitFor(() => {
+      expect(screen.getByText('DATE')).toBeInTheDocument()
+    })
+
+    // 달력 아이콘 찾기
+    const calendarIcon = screen.getByTestId('calendar-outlined')
+    expect(calendarIcon).toBeInTheDocument()
+
+    // 달력 아이콘을 포함한 버튼 찾기
+    const dateButton = calendarIcon.closest('button')
+    expect(dateButton).toBeInTheDocument()
+
+    await user.click(dateButton!)
+
+    // DateTimePicker가 렌더링되는지 확인
+    await waitFor(() => {
+      expect(screen.getByText('오늘')).toBeInTheDocument()
+      expect(screen.getByText('오전')).toBeInTheDocument()
+      expect(screen.getByText('오후')).toBeInTheDocument()
+    })
+  })
 })
