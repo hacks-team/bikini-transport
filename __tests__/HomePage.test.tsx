@@ -80,4 +80,47 @@ describe("home", () => {
       screen.getByPlaceholderText("버스 정류장을 검색해주세요")
     ).toBeInTheDocument();
   });
+
+  it("[테스트] 텍스트필드에 입력한 정류장 리스트만 필터링되어야 한다", async () => {
+    const user = userEvent.setup();
+    renderWith(<HomePage />, { route: "/" });
+
+    const departureButton = screen.getByText("Departure").closest("button");
+    await user.click(departureButton!);
+
+    // 초기 상태에서 모든 정류장이 표시되는지 확인
+    // -------------------- TODO: 서버에서 정류장 받아오기 --------------------
+    expect(screen.getByText("버스 정류장 이름1")).toBeInTheDocument();
+    expect(screen.getByText("버스 정류장 이름2")).toBeInTheDocument();
+    expect(screen.getByText("버스 정류장 이름3")).toBeInTheDocument();
+    expect(screen.getByText("버스 정류장 이름4")).toBeInTheDocument();
+    expect(screen.getByText("버스 정류장 이름5")).toBeInTheDocument();
+
+    // 검색어 입력
+    const searchInput = screen.getByPlaceholderText("버스 정류장을 검색해주세요");
+    await user.type(searchInput, "이름1");
+
+    // 필터링된 결과만 표시되는지 확인
+    await waitFor(() => {
+      expect(screen.getByText("버스 정류장 이름1")).toBeInTheDocument();
+    });
+    expect(screen.queryByText("버스 정류장 이름2")).not.toBeInTheDocument();
+    expect(screen.queryByText("버스 정류장 이름3")).not.toBeInTheDocument();
+    expect(screen.queryByText("버스 정류장 이름4")).not.toBeInTheDocument();
+    expect(screen.queryByText("버스 정류장 이름5")).not.toBeInTheDocument();
+
+    // 검색어 변경
+    await user.clear(searchInput);
+    await user.type(searchInput, "이름2");
+
+    // 모든 정류장이 다시 표시되는지 확인
+    await waitFor(() => {
+      expect(screen.getByText("버스 정류장 이름2")).toBeInTheDocument();
+    });
+    expect(screen.queryByText("버스 정류장 이름1")).not.toBeInTheDocument();
+    expect(screen.queryByText("버스 정류장 이름3")).not.toBeInTheDocument();
+    expect(screen.queryByText("버스 정류장 이름4")).not.toBeInTheDocument();
+    expect(screen.queryByText("버스 정류장 이름5")).not.toBeInTheDocument();
+     // -------------------- TODO: 서버에서 정류장 받아오기 --------------------
+  });
 });
