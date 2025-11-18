@@ -86,6 +86,12 @@ export const colors = defineTokens.colors({
     white: {
       value: "#FFFFFF",
     },
+    lightGray: {
+      value: "#CDD2D8",
+    },
+    darkGray: {
+      value: "#4B4B4B",
+    },
     black: {
       value: "#000000",
     },
