@@ -123,4 +123,71 @@ describe("home", () => {
     expect(screen.queryByText("버스 정류장 이름5")).not.toBeInTheDocument();
      // -------------------- TODO: 서버에서 정류장 받아오기 --------------------
   });
+
+  it("[테스트] 출발지와 도착지를 올바르게 표시한다", async () => {
+    const user = userEvent.setup();
+    renderWith(<HomePage />, { route: "/" });
+
+    const departureButton = screen.getByText("Departure").closest("button");
+    await user.click(departureButton!);
+
+    // 정류장 선택
+    const allStations = screen.getAllByText("버스 정류장 이름1");
+    const stationInBottomSheet = allStations.find((station) => {
+      const bottomSheet = station.closest('[data-testid="bottom-sheet"]');
+      return bottomSheet?.getAttribute("data-state") === "open";
+    });
+    expect(stationInBottomSheet).toBeInTheDocument();
+    await user.click(stationInBottomSheet!);
+
+    // 바텀싯이 닫히고 출발지 영역에 선택한 정류장이 표시되는지 확인
+    await waitFor(() => {
+      const allBottomSheets = screen.queryAllByTestId("bottom-sheet");
+      const stationSearchBottomSheet = allBottomSheets.find((sheet) =>
+        sheet.textContent?.includes("정류장 검색")
+      );
+      if (stationSearchBottomSheet) {
+        expect(stationSearchBottomSheet).toHaveAttribute("data-state", "closed");
+      }
+    });
+
+    const departureButtonAfterSelect = screen.getByText("Departure").closest("button");
+    expect(departureButtonAfterSelect?.textContent).toContain("버스 정류장 이름1");
+    expect(screen.getByText("BIKINI BOTTOM")).toBeInTheDocument(); // 도착지는 변경되지 않음
+
+    // 도착지 버튼 클릭
+    const arrivalButton = screen.getByText("Arrival").closest("button");
+    await user.click(arrivalButton!);
+
+    // 바텀싯이 열리는지 확인
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText("버스 정류장을 검색해주세요")).toBeInTheDocument();
+    });
+
+    // 정류장 선택
+    const allStations2 = screen.getAllByText("버스 정류장 이름2");
+    const stationInBottomSheet2 = allStations2.find((station) => {
+      const bottomSheet = station.closest('[data-testid="bottom-sheet"]');
+      return bottomSheet?.getAttribute("data-state") === "open";
+    });
+    expect(stationInBottomSheet2).toBeInTheDocument();
+    await user.click(stationInBottomSheet2!);
+
+    // 바텀싯이 닫히고 도착지 영역에 선택한 정류장이 표시되는지 확인
+    await waitFor(() => {
+      const allBottomSheets = screen.queryAllByTestId("bottom-sheet");
+      const stationSearchBottomSheet = allBottomSheets.find((sheet) =>
+        sheet.textContent?.includes("정류장 검색")
+      );
+      if (stationSearchBottomSheet) {
+        expect(stationSearchBottomSheet).toHaveAttribute("data-state", "closed");
+      }
+    });
+
+    const arrivalButtonAfterSelect = screen.getByText("Arrival").closest("button");
+    expect(arrivalButtonAfterSelect?.textContent).toContain("버스 정류장 이름2");
+    
+    // 출발지는 변경되지 않았는지 확인 (출발지 버튼 내부의 텍스트 확인)
+    expect(departureButtonAfterSelect?.textContent).toContain("버스 정류장 이름1");
+  });
 });
