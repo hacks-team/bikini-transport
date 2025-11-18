@@ -5,8 +5,9 @@ import { HStack } from 'styled-system/jsx'
 import { RightOutlined } from '@/ui-lib/components/Icon'
 import { Typography } from '@/ui-lib/components/Typography'
 
+
 interface CouponButtonProps {
-  onClick?: () => void
+  onClick?: () => void;
 }
 
 export const CouponButton = forwardRef<HTMLButtonElement, CouponButtonProps>(({ onClick, ...props }, ref) => {
@@ -32,6 +33,7 @@ export const CouponButton = forwardRef<HTMLButtonElement, CouponButtonProps>(({ 
       })}
       {...props}
     >
+
       <HStack gap={4} alignItems="center">
         <ark.img
           src="/coupon.png"
@@ -46,7 +48,8 @@ export const CouponButton = forwardRef<HTMLButtonElement, CouponButtonProps>(({ 
         <RightOutlined />
       </HStack>
     </ark.button>
-  )
-})
+  );
+});
+
 
 CouponButton.displayName = 'CouponButton'
