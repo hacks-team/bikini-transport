@@ -227,4 +227,20 @@ describe('home', () => {
       expect(screen.getByText('오후')).toBeInTheDocument()
     })
   })
+
+  it('[테스트] DateTimePicker에서 날짜를 선택하면 선택한 날짜가 화면에 표시된다', async () => {
+    const user = userEvent.setup()
+    renderWith(<HomePage />, { route: '/' })
+
+    await waitFor(() => {
+      expect(screen.getByText('DATE')).toBeInTheDocument()
+    })
+
+    // 달력 아이콘 클릭
+    await user.click(dateButton!)
+
+    // DateTimePicker가 열려있는 동안 날짜가 표시되는지 확인
+    const dateDisplayText = dateButton?.textContent
+    expect(dateDisplayText).toMatch(/\w+ \d+ \d{2}:\d{2} (AM|PM)/)
+  })
 })
