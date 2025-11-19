@@ -3,9 +3,8 @@ import { css } from 'styled-system/css';
 import { Box, Flex } from 'styled-system/jsx';
 import { Header } from '@/layout/Header';
 import { Button } from '@/ui-lib/components/Button';
-import { RouteOptionsBottomSheet } from './components/RouteOptionsBottomSheet';
+import { openRouteOptionsBottomSheet } from './components/RouteOptionsBottomSheet';
 import { RouteSearchSection } from './components/RouteSearchSection';
-import { StationSearchBottomSheet } from './components/StationSearchBottomSheet';
 
 export const HomePage = () => {
   return (
@@ -22,11 +21,10 @@ export const HomePage = () => {
       </Box>
 
       <Box px={5} py={4} flexShrink={0} backgroundColor="background.normal" zIndex={1}>
-        <Button fullWidth>버스표 조회</Button>
+        <Button fullWidth onClick={openRouteOptionsBottomSheet}>
+          버스표 조회
+        </Button>
       </Box>
-
-      <RouteOptionsBottomSheet />
-      <StationSearchBottomSheet />
     </Flex>
   );
 };

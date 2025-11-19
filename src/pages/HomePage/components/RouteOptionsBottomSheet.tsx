@@ -1,3 +1,4 @@
+import { overlay } from 'overlay-kit';
 import { Flex, VStack } from 'styled-system/jsx';
 import { DepartureArrivalCard } from '@/components/DepartureArrivalCard';
 import { RouteDetail } from '@/components/RouteDetail';
@@ -7,10 +8,20 @@ import { ExclamationCircleFilled } from '@/ui-lib/components/Icon';
 import { Tabs } from '@/ui-lib/components/Tabs';
 import { Typography } from '@/ui-lib/components/Typography';
 
-export const RouteOptionsBottomSheet = () => {
+interface RouteOptionsBottomSheetProps {
+  isOpen: boolean;
+  close: () => void;
+}
+
+export const openRouteOptionsBottomSheet = () => {
+  return overlay.open(({ isOpen, close }) => <RouteOptionsBottomSheet isOpen={isOpen} close={close} />);
+};
+
+export const RouteOptionsBottomSheet = ({ isOpen, close }: RouteOptionsBottomSheetProps) => {
   return (
     <BottomSheet
-      open={false}
+      open={isOpen}
+      onDimmerClick={close}
       header={<BottomSheet.Header>버스표 선택</BottomSheet.Header>}
       cta={
         <Button key="결제" fullWidth>

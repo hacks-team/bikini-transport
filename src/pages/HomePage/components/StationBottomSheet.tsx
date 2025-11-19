@@ -1,4 +1,5 @@
 import { ark } from '@ark-ui/react';
+import { overlay } from 'overlay-kit';
 import { useState } from 'react';
 import { css } from 'styled-system/css';
 import { Box, Divider, Flex, Spacer } from 'styled-system/jsx';
@@ -7,12 +8,22 @@ import { SearchOutlined } from '@/ui-lib/components/Icon';
 import { Input } from '@/ui-lib/components/Input';
 import { Typography } from '@/ui-lib/components/Typography';
 
-export const StationSearchBottomSheet = () => {
+interface StationBottomSheetProps {
+  isOpen: boolean;
+  close: () => void;
+}
+
+export const openStationBottomSheet = () => {
+  return overlay.open(({ isOpen, close }) => <StationBottomSheet isOpen={isOpen} close={close} />);
+};
+
+export const StationBottomSheet = ({ isOpen, close }: StationBottomSheetProps) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <BottomSheet
-      open={false}
+      open={isOpen}
+      onDimmerClick={close}
       header={
         <Flex>
           <BottomSheet.Header>정류장 검색</BottomSheet.Header>
@@ -73,6 +84,7 @@ const StationListItem = ({ name, onClick }: StationListItemProps) => {
           w: 'full',
           textAlign: 'left',
           p: 4,
+          cursor: 'pointer',
         })}
       >
         <Typography variant="B1_Medium" color="label.normal">
