@@ -10,7 +10,7 @@ interface DiscountBottomSheetProps {
   close: () => void;
 }
 
-export const openPaymentConfirmBottomSheet = () => {
+export const openDiscountBottomSheet = () => {
   return overlay.open(({ isOpen, close }) => <DiscountBottomSheet isOpen={isOpen} close={close} />);
 };
 

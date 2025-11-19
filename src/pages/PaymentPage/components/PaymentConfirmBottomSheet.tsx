@@ -12,6 +12,7 @@ interface PaymentConfirmBottomSheetProps {
 export const openPaymentConfirmBottomSheet = () => {
   return overlay.open(({ isOpen, close }) => <PaymentConfirmBottomSheet isOpen={isOpen} close={close} />);
 };
+
 export const PaymentConfirmBottomSheet = ({ isOpen, close }: PaymentConfirmBottomSheetProps) => {
   return (
     <BottomSheet
@@ -39,47 +40,30 @@ export const PaymentConfirmBottomSheet = ({ isOpen, close }: PaymentConfirmBotto
           gap={4}
           columnGap={2}
         >
-          <Typography variant="B1_Bold" color="static.black">
-            노선
-          </Typography>
-          <Divider orientation="vertical" height="2.5" color="label.disable" />
-          <Typography variant="B1_Regular" color="static.black">
-            비키니항구 → 구-라군
-          </Typography>
-
-          <Typography variant="B1_Bold" color="static.black">
-            출발 일시
-          </Typography>
-          <Divider orientation="vertical" height="2.5" color="label.disable" />
-          <Typography variant="B1_Regular" color="static.black">
-            2025년 00월 00일 (수) 00:00
-          </Typography>
-
-          <Typography variant="B1_Bold" color="static.black">
-            소요 시간
-          </Typography>
-          <Divider orientation="vertical" height="2.5" color="label.disable" />
-          <Typography variant="B1_Regular" color="static.black">
-            총 00시간 00분
-          </Typography>
-
-          <Typography variant="B1_Bold" color="static.black">
-            환승 횟수
-          </Typography>
-          <Divider orientation="vertical" height="2.5" color="label.disable" />
-          <Typography variant="B1_Regular" color="static.black">
-            3회
-          </Typography>
-
-          <Typography variant="B1_Bold" color="static.black">
-            결제 금액
-          </Typography>
-          <Divider orientation="vertical" height="2.5" color="label.disable" />
-          <Typography variant="B1_Regular" color="static.black">
-            0,000원
-          </Typography>
+          <InfoRow label="노선" value="비키니항구 → 구-라군" />
+          <InfoRow label="출발 일시" value="2025년 00월 00일 (수) 00:00" />
+          <InfoRow label="소요 시간" value="총 00시간 00분" />
+          <InfoRow label="환승 횟수" value="3회" />
+          <InfoRow label="결제 금액" value="0,000원" />
         </Grid>
       </Box>
     </BottomSheet>
   );
 };
+
+interface InfoRowProps {
+  label: string;
+  value: string;
+}
+
+const InfoRow = ({ label, value }: InfoRowProps) => (
+  <>
+    <Typography variant="B1_Bold" color="static.black">
+      {label}
+    </Typography>
+    <Divider orientation="vertical" height="2.5" color="label.disable" />
+    <Typography variant="B1_Regular" color="static.black">
+      {value}
+    </Typography>
+  </>
+);
