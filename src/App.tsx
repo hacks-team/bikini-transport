@@ -1,3 +1,4 @@
+import { OverlayProvider } from 'overlay-kit';
 import { PageLayout } from './pages/PageLayout';
 import { Routes } from './pages/Routes';
 import TestPathfinding from './test-pathfinding';
@@ -14,9 +15,11 @@ function App() {
   }
 
   return (
-    <PageLayout>
-      <Routes />
-    </PageLayout>
+    <OverlayProvider>
+      <PageLayout>
+        <Routes />
+      </PageLayout>
+    </OverlayProvider>
   );
 }
 
