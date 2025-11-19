@@ -1,7 +1,7 @@
 import { HStack } from 'styled-system/jsx';
 import { BottomSheet } from '@/ui-lib/components/BottomSheet';
 import { Button } from '@/ui-lib/components/Button';
-import { DateTimePicker } from './DateTimePicker';
+import { DateTimePicker } from '@/ui-lib/components/DateTimePicker';
 
 export const DepartureTimeBottomSheet = () => {
   return (
