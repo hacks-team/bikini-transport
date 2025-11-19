@@ -5,7 +5,7 @@ import { Box, HStack, VStack } from 'styled-system/jsx';
 import { CalendarOutlined, SyncOutlined } from '@/ui-lib/components/Icon';
 import { Typography } from '@/ui-lib/components/Typography';
 
-export function TicketSearchSection() {
+export function RouteSearchSection() {
   return (
     <Box pb={3} borderRadius="xl" backgroundColor="background.normal" position="relative">
       <SpongeBobImage />
@@ -32,7 +32,7 @@ interface ButtonFieldProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const StationButton = forwardRef<HTMLButtonElement, ButtonFieldProps>(
   ({ label, value, placeholder, ...props }, ref) => {
     return (
-      <ark.button ref={ref} className={css({ w: 'full' })} {...props}>
+      <ark.button ref={ref} className={css({ w: 'full', cursor: 'pointer' })} {...props}>
         <VStack gap={1} w="full" alignItems="center">
           <Typography variant="B2_Medium" color="label.neutral">
             {label}
@@ -48,7 +48,7 @@ const StationButton = forwardRef<HTMLButtonElement, ButtonFieldProps>(
 
 const DateButton = forwardRef<HTMLButtonElement, ButtonFieldProps>(({ label, value, placeholder, ...props }, ref) => {
   return (
-    <ark.button ref={ref} className={css({ w: 'full' })} {...props}>
+    <ark.button ref={ref} className={css({ w: 'full', cursor: 'pointer' })} {...props}>
       <HStack
         gap={4}
         px={5}

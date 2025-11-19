@@ -4,9 +4,9 @@ import { Box, Flex } from 'styled-system/jsx';
 import { Header } from '@/layout/Header';
 import { Button } from '@/ui-lib/components/Button';
 import { DepartureTimeBottomSheet } from './components/DepartureTimeBottomSheet';
+import { RouteSearchSection } from './components/RouteSearchSection';
+import { RouteSelectBottomSheet } from './components/RouteSelectBottomSheet';
 import { StationSearchBottomSheet } from './components/StationSearchBottomSheet';
-import { TicketSearchSection } from './components/TicketSearchSection';
-import { TicketSelectionBottomSheet } from './components/TicketSelectionBottomSheet';
 
 export const HomePage = () => {
   return (
@@ -19,14 +19,14 @@ export const HomePage = () => {
       </Header>
 
       <Box flex="1" overflowY="auto" px={5} pb={5} pt="45%" zIndex={1}>
-        <TicketSearchSection />
+        <RouteSearchSection />
       </Box>
 
       <Box px={5} py={4} flexShrink={0} backgroundColor="background.normal" zIndex={1}>
         <Button fullWidth>버스표 조회</Button>
       </Box>
 
-      <TicketSelectionBottomSheet />
+      <RouteSelectBottomSheet />
       <DepartureTimeBottomSheet />
       <StationSearchBottomSheet />
     </Flex>
