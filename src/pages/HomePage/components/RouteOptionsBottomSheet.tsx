@@ -7,7 +7,7 @@ import { ExclamationCircleFilled } from '@/ui-lib/components/Icon';
 import { Tabs } from '@/ui-lib/components/Tabs';
 import { Typography } from '@/ui-lib/components/Typography';
 
-export const RouteSelectBottomSheet = () => {
+export const RouteOptionsBottomSheet = () => {
   return (
     <BottomSheet
       open={false}

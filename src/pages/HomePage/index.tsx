@@ -4,8 +4,8 @@ import { Box, Flex } from 'styled-system/jsx';
 import { Header } from '@/layout/Header';
 import { Button } from '@/ui-lib/components/Button';
 import { DepartureTimeBottomSheet } from './components/DepartureTimeBottomSheet';
+import { RouteOptionsBottomSheet } from './components/RouteOptionsBottomSheet';
 import { RouteSearchSection } from './components/RouteSearchSection';
-import { RouteSelectBottomSheet } from './components/RouteSelectBottomSheet';
 import { StationSearchBottomSheet } from './components/StationSearchBottomSheet';
 
 export const HomePage = () => {
@@ -26,7 +26,7 @@ export const HomePage = () => {
         <Button fullWidth>버스표 조회</Button>
       </Box>
 
-      <RouteSelectBottomSheet />
+      <RouteOptionsBottomSheet />
       <DepartureTimeBottomSheet />
       <StationSearchBottomSheet />
     </Flex>
