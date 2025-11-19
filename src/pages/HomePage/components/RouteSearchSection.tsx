@@ -4,6 +4,7 @@ import { css } from 'styled-system/css';
 import { Box, HStack, VStack } from 'styled-system/jsx';
 import { CalendarOutlined, SyncOutlined } from '@/ui-lib/components/Icon';
 import { Typography } from '@/ui-lib/components/Typography';
+import { openDepartureTimeBottomSheet } from './DepartureTimeBottomSheet';
 
 export function RouteSearchSection() {
   return (
@@ -17,7 +18,12 @@ export function RouteSearchSection() {
         </HStack>
       </Box>
       <Box px={5} gap={4}>
-        <DateButton label="가는날" value="October 27 09:00 AM" placeholder="날짜를 입력해주세요" />
+        <DateButton
+          label="가는날"
+          value="October 27 09:00 AM"
+          placeholder="날짜를 입력해주세요"
+          onClick={openDepartureTimeBottomSheet}
+        />
       </Box>
     </Box>
   );

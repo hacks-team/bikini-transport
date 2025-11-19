@@ -3,7 +3,6 @@ import { css } from 'styled-system/css';
 import { Box, Flex } from 'styled-system/jsx';
 import { Header } from '@/layout/Header';
 import { Button } from '@/ui-lib/components/Button';
-import { DepartureTimeBottomSheet } from './components/DepartureTimeBottomSheet';
 import { RouteOptionsBottomSheet } from './components/RouteOptionsBottomSheet';
 import { RouteSearchSection } from './components/RouteSearchSection';
 import { StationSearchBottomSheet } from './components/StationSearchBottomSheet';
@@ -27,7 +26,6 @@ export const HomePage = () => {
       </Box>
 
       <RouteOptionsBottomSheet />
-      <DepartureTimeBottomSheet />
       <StationSearchBottomSheet />
     </Flex>
   );
