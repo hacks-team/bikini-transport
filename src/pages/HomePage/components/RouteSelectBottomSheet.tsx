@@ -10,7 +10,7 @@ import { Typography } from '@/ui-lib/components/Typography';
 export const RouteSelectBottomSheet = () => {
   return (
     <BottomSheet
-      open={true}
+      open={false}
       header={<BottomSheet.Header>버스표 선택</BottomSheet.Header>}
       cta={
         <Button key="결제" fullWidth>
@@ -24,7 +24,7 @@ export const RouteSelectBottomSheet = () => {
             key: '최단시간',
             label: '최단시간',
             children: (
-              <Flex p="5" direction="column" gap="3.5" height="480px" overflowY="auto">
+              <Flex p="5" direction="column" gap="3.5" height="490px" overflowY="auto">
                 <DepartureArrivalCard
                   date="10월 28일 (화) 09:00"
                   departure="비키니환초"
@@ -32,7 +32,7 @@ export const RouteSelectBottomSheet = () => {
                   totalTime="총 8시간 6분"
                   transferCount="환승 3회"
                 />
-                <RouteDetail.Root>
+                <RouteDetail p="5" borderWidth="1px" borderStyle="solid" borderColor="line.neutral" borderRadius="xl">
                   <RouteDetail.Station
                     line={{ name: '투어선', type: 'tour' }}
                     stationName="비키니환초"
@@ -41,7 +41,7 @@ export const RouteSelectBottomSheet = () => {
                     waitingTime="12분 50초"
                   />
                   <RouteDetail.ArrivalStation stationName="구-라군" lineType="tour" />
-                </RouteDetail.Root>
+                </RouteDetail>
               </Flex>
             ),
           },
@@ -49,7 +49,7 @@ export const RouteSelectBottomSheet = () => {
             key: '최소환승',
             label: '최소환승',
             children: (
-              <Flex p="5" direction="column" gap="3.5" height="480px" overflowY="auto">
+              <Flex p="5" direction="column" gap="3.5" height="490px" overflowY="auto">
                 <DepartureArrivalCard
                   date="10월 28일 (화) 09:00"
                   departure="비키니환초"
@@ -57,7 +57,7 @@ export const RouteSelectBottomSheet = () => {
                   totalTime="총 8시간 6분"
                   transferCount="환승 3회"
                 />
-                <RouteDetail.Root>
+                <RouteDetail p="5" borderWidth="1px" borderStyle="solid" borderColor="line.neutral" borderRadius="xl">
                   <RouteDetail.Station
                     line={{ name: '투어선', type: 'tour' }}
                     stationName="비키니환초"
@@ -73,7 +73,7 @@ export const RouteSelectBottomSheet = () => {
                     waitingTime="10분 50초"
                   />
                   <RouteDetail.ArrivalStation stationName="구-라군" lineType="city" />
-                </RouteDetail.Root>
+                </RouteDetail>
               </Flex>
             ),
           },
@@ -81,7 +81,7 @@ export const RouteSelectBottomSheet = () => {
             key: '최저요금',
             label: '최저요금',
             children: (
-              <Flex p="5" direction="column" gap="3.5" height="480px" overflowY="auto">
+              <Flex p="5" direction="column" gap="3.5" height="490px" overflowY="auto">
                 <DepartureArrivalCard
                   date="10월 28일 (화) 09:00"
                   departure="비키니환초"
@@ -89,7 +89,7 @@ export const RouteSelectBottomSheet = () => {
                   totalTime="총 8시간 6분"
                   transferCount="환승 3회"
                 />
-                <RouteDetail.Root>
+                <RouteDetail p="5" borderWidth="1px" borderStyle="solid" borderColor="line.neutral" borderRadius="xl">
                   <RouteDetail.Station
                     line={{ name: '투어선', type: 'tour' }}
                     stationName="비키니환초"
@@ -112,7 +112,7 @@ export const RouteSelectBottomSheet = () => {
                     waitingTime="30분 3초"
                   />
                   <RouteDetail.ArrivalStation stationName="구-라군" lineType="suburb" />
-                </RouteDetail.Root>
+                </RouteDetail>
               </Flex>
             ),
           },
@@ -122,9 +122,9 @@ export const RouteSelectBottomSheet = () => {
   );
 };
 
-const _TicketSoldOut = () => {
+const TicketSoldOut = () => {
   return (
-    <VStack gap="3" p="5" height="480px" justifyContent="center">
+    <VStack gap="3" p="5" height="540px" justifyContent="center">
       <ExclamationCircleFilled />
       <Typography variant="H2_Bold" color="label.normal">
         버스표가 모두 매진되었어요

@@ -5,25 +5,15 @@ import { Typography } from '@/ui-lib/components/Typography';
 
 type BusLineType = 'tour' | 'city' | 'suburb';
 
-const RouteRoot = ({ children, ...props }: BoxProps) => {
+export function RouteDetail({ children, ...props }: BoxProps) {
   return (
-    <Box
-      p="5"
-      borderWidth="1px"
-      borderStyle="solid"
-      borderColor="line.neutral"
-      borderRadius="xl"
-      display="grid"
-      gridTemplateColumns="auto 1fr"
-      columnGap="3"
-      {...props}
-    >
+    <Box display="grid" gridTemplateColumns="auto 1fr" columnGap="3" {...props}>
       {children}
     </Box>
   );
-};
+}
 
-interface RouteStationProps {
+interface StationProps {
   line: {
     name: string;
     type: BusLineType;
@@ -34,7 +24,7 @@ interface RouteStationProps {
   waitingTime?: string;
 }
 
-const RouteStation = ({ line, stationName, travelTime, stopsCount, waitingTime }: RouteStationProps) => {
+const Station = ({ line, stationName, travelTime, stopsCount, waitingTime }: StationProps) => {
   return (
     <>
       <Flex direction="column" alignItems="center">
@@ -64,30 +54,28 @@ const RouteStation = ({ line, stationName, travelTime, stopsCount, waitingTime }
   );
 };
 
-interface RouteArrivalStationProps {
+interface ArrivalStationProps {
   stationName: string;
   lineType: BusLineType;
 }
 
-const RouteArrivalStation = ({ stationName, lineType }: RouteArrivalStationProps) => {
+const ArrivalStation = ({ stationName, lineType }: ArrivalStationProps) => {
   return (
     <>
       <Flex direction="column" alignItems="center">
         <Divider orientation="vertical" height="1.5" color="line.normal" />
-        <CircleOutlined
-          color={(() => {
-            switch (lineType) {
-              case 'tour':
-                return 'bus.tour';
-              case 'city':
-                return 'bus.city';
-              case 'suburb':
-                return 'bus.suburb';
-              default:
-                return undefined;
-            }
-          })()}
-        />
+        {(() => {
+          switch (lineType) {
+            case 'tour':
+              return <CircleOutlined color="bus.tour" />;
+            case 'city':
+              return <CircleOutlined color="bus.city" />;
+            case 'suburb':
+              return <CircleOutlined color="bus.suburb" />;
+            default:
+              return <CircleOutlined />;
+          }
+        })()}
       </Flex>
       <Typography variant="B2_Bold" color="label.normal">
         {stationName}
@@ -96,8 +84,5 @@ const RouteArrivalStation = ({ stationName, lineType }: RouteArrivalStationProps
   );
 };
 
-export const RouteDetail = {
-  Root: RouteRoot,
-  Station: RouteStation,
-  ArrivalStation: RouteArrivalStation,
-};
+RouteDetail.Station = Station;
+RouteDetail.ArrivalStation = ArrivalStation;

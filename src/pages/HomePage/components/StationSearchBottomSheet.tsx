@@ -1,5 +1,6 @@
 import { ark } from '@ark-ui/react';
 import { useState } from 'react';
+import { css } from 'styled-system/css';
 import { Box, Divider, Flex, Spacer } from 'styled-system/jsx';
 import { BottomSheet } from '@/ui-lib/components/BottomSheet';
 import { SearchOutlined } from '@/ui-lib/components/Icon';
@@ -32,52 +33,53 @@ export const StationSearchBottomSheet = () => {
         <Spacer height={2} />
 
         <Flex direction="column" as="ul" height="360px" overflowY="auto">
-          <Box as="li" p={4}>
-            <ark.button>
-              <Typography variant="B1_Medium" color="label.normal">
-                버스 정류장 이름1
-              </Typography>
-            </ark.button>
-          </Box>
+          <StationListItem name="뉴 켈프 시티" />
           <Divider color="line.alternative" />
 
-          <Box as="li" p={4}>
-            <ark.button>
-              <Typography variant="B1_Medium" color="label.normal">
-                버스 정류장 이름2
-              </Typography>
-            </ark.button>
-          </Box>
+          <StationListItem name="글러브월드" />
           <Divider color="line.alternative" />
 
-          <Box as="li" p={4}>
-            <ark.button>
-              <Typography variant="B1_Medium" color="label.normal">
-                버스 정류장 이름3
-              </Typography>
-            </ark.button>
-          </Box>
+          <StationListItem name="비키니시티" />
           <Divider color="line.alternative" />
 
-          <Box as="li" p={4}>
-            <ark.button>
-              <Typography variant="B1_Medium" color="label.normal">
-                버스 정류장 이름4
-              </Typography>
-            </ark.button>
-          </Box>
+          <StationListItem name="플로터스 묘지" />
           <Divider color="line.alternative" />
 
-          <Box as="li" p={4}>
-            <ark.button>
-              <Typography variant="B1_Medium" color="label.normal">
-                버스 정류장 이름5
-              </Typography>
-            </ark.button>
-          </Box>
+          <StationListItem name="버블타운" />
+          <Divider color="line.alternative" />
+
+          <StationListItem name="메롱시티" />
+          <Divider color="line.alternative" />
+
+          <StationListItem name="비키니 환초" />
           <Divider color="line.alternative" />
         </Flex>
       </Box>
     </BottomSheet>
+  );
+};
+
+interface StationListItemProps {
+  name: string;
+  onClick?: () => void;
+}
+
+const StationListItem = ({ name, onClick }: StationListItemProps) => {
+  return (
+    <Box as="li">
+      <ark.button
+        onClick={onClick}
+        className={css({
+          w: 'full',
+          textAlign: 'left',
+          p: 4,
+        })}
+      >
+        <Typography variant="B1_Medium" color="label.normal">
+          {name}
+        </Typography>
+      </ark.button>
+      <Divider color="line.alternative" />
+    </Box>
   );
 };
