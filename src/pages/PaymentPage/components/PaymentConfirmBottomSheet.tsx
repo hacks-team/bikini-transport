@@ -1,12 +1,22 @@
+import { overlay } from 'overlay-kit';
 import { Box, Divider, Grid, HStack } from 'styled-system/jsx';
 import { BottomSheet } from '@/ui-lib/components/BottomSheet';
 import { Button } from '@/ui-lib/components/Button';
 import { Typography } from '@/ui-lib/components/Typography';
 
-export const PaymentConfirmBottomSheet = () => {
+interface PaymentConfirmBottomSheetProps {
+  isOpen: boolean;
+  close: () => void;
+}
+
+export const openPaymentConfirmBottomSheet = () => {
+  return overlay.open(({ isOpen, close }) => <PaymentConfirmBottomSheet isOpen={isOpen} close={close} />);
+};
+export const PaymentConfirmBottomSheet = ({ isOpen, close }: PaymentConfirmBottomSheetProps) => {
   return (
     <BottomSheet
-      open={false}
+      open={isOpen}
+      onDimmerClick={close}
       header={<BottomSheet.Header>버스표 결제를 진행하시겠어요?</BottomSheet.Header>}
       cta={
         <HStack>

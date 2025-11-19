@@ -9,8 +9,7 @@ import { Tag } from '@/ui-lib/components/Tag';
 import { Header } from '../../layout/Header';
 import { Typography } from '../../ui-lib/components/Typography';
 import { DiscountBottomSheet } from './components/DiscountBottomSheet';
-import { PaymentCancelBottomSheet } from './components/PaymentCancelBottomSheet';
-import { PaymentConfirmBottomSheet } from './components/PaymentConfirmBottomSheet';
+import { openPaymentConfirmBottomSheet } from './components/PaymentConfirmBottomSheet';
 
 export const PaymentPage = () => {
   return (
@@ -127,11 +126,11 @@ export const PaymentPage = () => {
         </Box>
       </Box>
       <Box px={5} py={4} flexShrink={0}>
-        <Button fullWidth>확인</Button>
+        <Button fullWidth onClick={openPaymentConfirmBottomSheet}>
+          결재하기
+        </Button>
       </Box>
       <DiscountBottomSheet />
-      <PaymentConfirmBottomSheet />
-      <PaymentCancelBottomSheet />
     </Flex>
   );
 };

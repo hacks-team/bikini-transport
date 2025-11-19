@@ -1,13 +1,24 @@
+import { overlay } from 'overlay-kit';
 import { Box, HStack, VStack } from 'styled-system/jsx';
 import { BottomSheet } from '@/ui-lib/components/BottomSheet';
 import { Button } from '@/ui-lib/components/Button';
 import { CheckCircleFilled, CheckCircleOutlined, CircleFilled } from '@/ui-lib/components/Icon';
 import { Typography } from '@/ui-lib/components/Typography';
 
-export const DiscountBottomSheet = () => {
+interface DiscountBottomSheetProps {
+  isOpen: boolean;
+  close: () => void;
+}
+
+export const openPaymentConfirmBottomSheet = () => {
+  return overlay.open(({ isOpen, close }) => <DiscountBottomSheet isOpen={isOpen} close={close} />);
+};
+
+export const DiscountBottomSheet = ({ isOpen, close }: DiscountBottomSheetProps) => {
   return (
     <BottomSheet
-      open={false}
+      open={isOpen}
+      onDimmerClick={close}
       header={<BottomSheet.Header>할인</BottomSheet.Header>}
       cta={
         <Button key="사용하기" fullWidth>
