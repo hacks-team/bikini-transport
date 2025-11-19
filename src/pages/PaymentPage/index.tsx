@@ -1,7 +1,7 @@
 import { ark } from '@ark-ui/react';
 import { Box, Divider, Flex, HStack } from 'styled-system/jsx';
-import { DepartureArrivalCard } from '@/components/DepartureArrivalCard';
 import { RouteDetail } from '@/components/RouteDetail';
+import { TripSummary } from '@/components/TripSummary';
 import { Accordion } from '@/ui-lib/components/Accordion';
 import { Button } from '@/ui-lib/components/Button';
 import { CloseOutlined, DownOutlined } from '@/ui-lib/components/Icon';
@@ -28,12 +28,14 @@ export const PaymentPage = () => {
 
       <Box flex="1" overflowY="auto" pt="5" pb="2.5" px="5">
         <Box borderWidth="1px" borderStyle="solid" borderColor="line.neutral" borderRadius="xl">
-          <DepartureArrivalCard
+          <TripSummary
             date="10월 28일 (화) 09:00"
             departure="비키니환초"
             arrival="구-라군"
             totalTime="총 8시간 6분"
             transferCount="환승 3회"
+            backgroundColor="background.neutral"
+            borderTopRadius="xl"
           />
           <Flex direction="column" p="5" gap="5">
             <Flex direction="column" gap="4">
