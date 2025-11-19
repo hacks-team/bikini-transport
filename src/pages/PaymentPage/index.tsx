@@ -2,13 +2,13 @@ import { ark } from '@ark-ui/react';
 import { Box, Divider, Flex, HStack } from 'styled-system/jsx';
 import { RouteDetail } from '@/components/RouteDetail';
 import { TripSummary } from '@/components/TripSummary';
+import { Header } from '@/layout/Header';
 import { Accordion } from '@/ui-lib/components/Accordion';
 import { Button } from '@/ui-lib/components/Button';
 import { CloseOutlined, DownOutlined } from '@/ui-lib/components/Icon';
 import { Tag } from '@/ui-lib/components/Tag';
-import { Header } from '../../layout/Header';
-import { Typography } from '../../ui-lib/components/Typography';
-import { DiscountBottomSheet } from './components/DiscountBottomSheet';
+import { Typography } from '@/ui-lib/components/Typography';
+import { openCouponBottomSheet } from './components/CouponBottomSheet';
 import { openPaymentConfirmBottomSheet } from './components/PaymentConfirmBottomSheet';
 
 export const PaymentPage = () => {
@@ -112,14 +112,7 @@ export const PaymentPage = () => {
                 <Typography variant="B1_Bold" color="label.normal">
                   할인
                 </Typography>
-                <Button color="secondary" size="small" icon={<CloseOutlined size={16} />} iconPosition="end">
-                  <Flex>
-                    <Typography variant="B2_Medium" color="secondary.heavy">
-                      2₴
-                    </Typography>
-                    가 할인되었어요!
-                  </Flex>
-                </Button>
+                <AddDiscount />
               </HStack>
             </Flex>
           </Flex>
@@ -130,7 +123,27 @@ export const PaymentPage = () => {
           결재하기
         </Button>
       </Box>
-      <DiscountBottomSheet />
     </Flex>
+  );
+};
+
+const AddDiscount = () => {
+  return (
+    <Button color="secondary" size="small" onClick={openCouponBottomSheet}>
+      추가
+    </Button>
+  );
+};
+
+const RemoveDiscountButton = () => {
+  return (
+    <Button color="secondary" size="small" icon={<CloseOutlined size={16} />} iconPosition="end">
+      <Flex>
+        <Typography variant="B2_Medium" color="secondary.heavy">
+          2₴
+        </Typography>
+        가 할인되었어요!
+      </Flex>
+    </Button>
   );
 };

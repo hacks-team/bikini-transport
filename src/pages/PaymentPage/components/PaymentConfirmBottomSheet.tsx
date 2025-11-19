@@ -31,39 +31,47 @@ export const PaymentConfirmBottomSheet = ({ isOpen, close }: PaymentConfirmBotto
       }
     >
       <Box p={5}>
-        <Grid
-          borderRadius="xl"
-          backgroundColor="background.neutral"
-          p={5}
-          gridTemplateColumns="auto auto 1fr"
-          alignItems="center"
-          gap={4}
-          columnGap={2}
-        >
-          <InfoRow label="노선" value="비키니항구 → 구-라군" />
-          <InfoRow label="출발 일시" value="2025년 00월 00일 (수) 00:00" />
-          <InfoRow label="소요 시간" value="총 00시간 00분" />
-          <InfoRow label="환승 횟수" value="3회" />
-          <InfoRow label="결제 금액" value="0,000원" />
-        </Grid>
+        <PaymentSummary />
       </Box>
     </BottomSheet>
   );
 };
 
-interface InfoRowProps {
+const PaymentSummary = () => {
+  return (
+    <Grid
+      borderRadius="xl"
+      backgroundColor="background.neutral"
+      p={5}
+      gridTemplateColumns="auto auto 1fr"
+      alignItems="center"
+      gap={4}
+      columnGap={2}
+    >
+      <SummaryRow label="노선" value="비키니항구 → 구-라군" />
+      <SummaryRow label="출발 일시" value="2025년 00월 00일 (수) 00:00" />
+      <SummaryRow label="소요 시간" value="총 00시간 00분" />
+      <SummaryRow label="환승 횟수" value="3회" />
+      <SummaryRow label="결제 금액" value="0,000원" />
+    </Grid>
+  );
+};
+
+interface SummaryRowProps {
   label: string;
   value: string;
 }
 
-const InfoRow = ({ label, value }: InfoRowProps) => (
-  <>
-    <Typography variant="B1_Bold" color="static.black">
-      {label}
-    </Typography>
-    <Divider orientation="vertical" height="2.5" color="label.disable" />
-    <Typography variant="B1_Regular" color="static.black">
-      {value}
-    </Typography>
-  </>
-);
+const SummaryRow = ({ label, value }: SummaryRowProps) => {
+  return (
+    <>
+      <Typography variant="B1_Bold" color="static.black">
+        {label}
+      </Typography>
+      <Divider orientation="vertical" height="2.5" color="label.disable" />
+      <Typography variant="B1_Regular" color="static.black">
+        {value}
+      </Typography>
+    </>
+  );
+};
