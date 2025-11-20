@@ -8,7 +8,7 @@ import { Typography } from '@/ui-lib/components/Typography';
 import { openCouponBottomSheet } from './CouponBottomSheet';
 import { PaymentDetailDescriptions } from './PaymentDetailDescriptions';
 
-export function PaymentDetailSection() {
+export const PaymentDetailSection = () => {
   return (
     <Box as="section" borderWidth="1px" borderStyle="solid" borderColor="line.neutral" borderRadius="xl">
       <TripSummary.Root borderTopRadius="xl" backgroundColor="background.neutral">
@@ -27,7 +27,7 @@ export function PaymentDetailSection() {
       </Flex>
     </Box>
   );
-}
+};
 
 const TripDetails = () => {
   return (

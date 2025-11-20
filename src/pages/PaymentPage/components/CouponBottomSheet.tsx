@@ -64,13 +64,16 @@ export const CouponBottomSheet = ({ isOpen, close }: CouponBottomSheetProps) => 
   );
 };
 
-interface CouponRadioItemProps extends ComponentPropsWithoutRef<typeof RadioGroup.Item> {
+const CouponRadioItem = ({
+  discountAmount,
+  couponName,
+  conditions,
+  ...props
+}: ComponentPropsWithoutRef<typeof RadioGroup.Item> & {
   discountAmount: string;
   couponName: string;
   conditions: string[];
-}
-
-const CouponRadioItem = ({ discountAmount, couponName, conditions, ...props }: CouponRadioItemProps) => {
+}) => {
   return (
     <RadioGroup.Item className={css({ w: 'full' })} {...props}>
       <RadioGroup.ItemHiddenInput />
