@@ -31,38 +31,27 @@ export const PaymentConfirmBottomSheet = ({ isOpen, close }: PaymentConfirmBotto
       }
     >
       <Box p={5}>
-        <PaymentSummary />
+        <Grid
+          borderRadius="xl"
+          backgroundColor="background.neutral"
+          p={5}
+          gridTemplateColumns="auto auto 1fr"
+          alignItems="center"
+          gap={4}
+          columnGap={2}
+        >
+          <ConfirmRow label="노선" value="비키니항구 → 구-라군" />
+          <ConfirmRow label="출발 일시" value="2025년 00월 00일 (수) 00:00" />
+          <ConfirmRow label="소요 시간" value="총 00시간 00분" />
+          <ConfirmRow label="환승 횟수" value="3회" />
+          <ConfirmRow label="결제 금액" value="0,000원" />
+        </Grid>
       </Box>
     </BottomSheet>
   );
 };
 
-const PaymentSummary = () => {
-  return (
-    <Grid
-      borderRadius="xl"
-      backgroundColor="background.neutral"
-      p={5}
-      gridTemplateColumns="auto auto 1fr"
-      alignItems="center"
-      gap={4}
-      columnGap={2}
-    >
-      <SummaryRow label="노선" value="비키니항구 → 구-라군" />
-      <SummaryRow label="출발 일시" value="2025년 00월 00일 (수) 00:00" />
-      <SummaryRow label="소요 시간" value="총 00시간 00분" />
-      <SummaryRow label="환승 횟수" value="3회" />
-      <SummaryRow label="결제 금액" value="0,000원" />
-    </Grid>
-  );
-};
-
-interface SummaryRowProps {
-  label: string;
-  value: string;
-}
-
-const SummaryRow = ({ label, value }: SummaryRowProps) => {
+const ConfirmRow = ({ label, value }: { label: string; value: string }) => {
   return (
     <>
       <Typography variant="B1_Bold" color="static.black">
