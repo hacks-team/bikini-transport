@@ -5,7 +5,7 @@ import { HomePage } from '@/pages/HomePage';
 import { renderWith } from './render-with';
 
 describe('home', () => {
-  it('[테스트] 출발지 바텀싯에서 정류장을 선택하면 출발지에 해당 정류장이 반영된다.', async () => {
+  it('출발지 바텀싯에서 정류장을 선택하면 출발지에 해당 정류장이 반영된다.', async () => {
     const user = userEvent.setup();
     renderWith(<HomePage />, { route: '/' });
 
@@ -39,7 +39,7 @@ describe('home', () => {
     });
   });
 
-  it('[테스트] 출발지와 도착지 스왑 버튼을 누르면 출발지와 도착지가 바뀐다.', async () => {
+  it('출발지와 도착지 스왑 버튼을 누르면 출발지와 도착지가 바뀐다.', async () => {
     const user = userEvent.setup();
     renderWith(<HomePage />, { route: '/' });
 
@@ -62,45 +62,54 @@ describe('home', () => {
     });
   });
 
-  // it('[테스트] 달력 아이콘을 클릭하면 DateTimePicker가 열린다', async () => {
-  //   const user = userEvent.setup();
-  //   renderWith(<HomePage />, { route: '/' });
+  it('DateTimePicker에서 날짜를 선택하면 선택한 날짜가 화면에 표시된다', async () => {
+    const user = userEvent.setup();
+    renderWith(<HomePage />, { route: '/' });
 
-  //   await waitFor(() => {
-  //     expect(screen.getByText('DATE')).toBeInTheDocument();
-  //   });
+    // 날짜 버튼 클릭
+    const 가는날Text = screen.getByText('가는날');
+    const dateButton = 가는날Text.closest('button');
+    expect(dateButton).not.toBeNull();
+    await user.click(dateButton!);
 
-  //   // 달력 아이콘 찾기
-  //   const calendarIcon = screen.getByTestId('calendar-outlined');
-  //   expect(calendarIcon).toBeInTheDocument();
+    // DateTimePicker 바텀싯이 열릴 때까지 대기
+    await waitFor(() => {
+      const headerText = screen.queryByText('출발 시간 설정');
+      expect(headerText).not.toBeNull();
+    });
 
-  //   // 달력 아이콘을 포함한 버튼 찾기
-  //   const dateButton = calendarIcon.closest('button');
-  //   expect(dateButton).toBeInTheDocument();
+    // 오늘 9:23 PM 선택하기
+    // 오후 선택
+    const 오후Elements = screen.getAllByText('오후');
+    const 오후Item = 오후Elements[0];
+    await user.click(오후Item);
 
-  //   await user.click(dateButton!);
+    // 9시 선택
+    await waitFor(() => {
+      const hour9Elements = screen.getAllByText('9');
+      expect(hour9Elements.length).toBeGreaterThan(0);
+    });
+    const hour9Elements = screen.getAllByText('9');
+    const hour9Item = hour9Elements[0];
+    await user.click(hour9Item);
 
-  //   // DateTimePicker가 렌더링되는지 확인
-  //   await waitFor(() => {
-  //     expect(screen.getByText('오늘')).toBeInTheDocument();
-  //     expect(screen.getByText('오전')).toBeInTheDocument();
-  //     expect(screen.getByText('오후')).toBeInTheDocument();
-  //   });
-  // });
+    // 23분 선택
+    await waitFor(() => {
+      const minute23Elements = screen.getAllByText('23');
+      expect(minute23Elements.length).toBeGreaterThan(0);
+    });
+    const minute23Elements = screen.getAllByText('23');
+    const minute23Item = minute23Elements[0];
+    await user.click(minute23Item);
 
-  // it('[테스트] DateTimePicker에서 날짜를 선택하면 선택한 날짜가 화면에 표시된다', async () => {
-  //   const user = userEvent.setup();
-  //   renderWith(<HomePage />, { route: '/' });
+    // 확인 버튼 클릭
+    const confirmButton = screen.getByRole('button', { name: /확인/i });
+    await user.click(confirmButton);
 
-  //   await waitFor(() => {
-  //     expect(screen.getByText('DATE')).toBeInTheDocument();
-  //   });
-
-  //   // 달력 아이콘 클릭
-  //   await user.click(dateButton!);
-
-  //   // DateTimePicker가 열려있는 동안 날짜가 표시되는지 확인
-  //   const dateDisplayText = dateButton?.textContent;
-  //   expect(dateDisplayText).toMatch(/\w+ \d+ \d{2}:\d{2} (AM|PM)/);
-  // });
+    // 날짜 버튼이 업데이트되었는지 확인 (오늘 09:23 PM)
+    await waitFor(() => {
+      const updatedDateButton = screen.getByRole('button', { name: /가는날/i });
+      expect(updatedDateButton.textContent).toContain('09:23 PM');
+    });
+  });
 });
