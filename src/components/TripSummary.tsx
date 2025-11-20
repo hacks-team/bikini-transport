@@ -1,19 +1,29 @@
 import { Box, type BoxProps, Divider, HStack, VStack } from 'styled-system/jsx';
 import { SwapRightOutlined } from '@/ui-lib/components/Icon';
 import { Typography } from '@/ui-lib/components/Typography';
+import { CouponButton } from './CouponButton';
 
-interface TripSummaryProps extends BoxProps {
+interface TripSummaryProps {
   date: string;
   departure: string;
   arrival: string;
   totalTime: string;
   transferCount: string;
+  containerStyle: BoxProps;
 }
 
-export function TripSummary({ date, departure, arrival, totalTime, transferCount, ...props }: TripSummaryProps) {
+export function TripSummary({
+  date,
+  departure,
+  arrival,
+  totalTime,
+  transferCount,
+  ...containerStyle
+}: TripSummaryProps) {
   return (
-    <Box {...props}>
+    <Box {...containerStyle}>
       <VStack gap="3" p="5">
+        <CouponButton />
         <Typography variant="C2_Regular" color="label.normal">
           {date}
         </Typography>

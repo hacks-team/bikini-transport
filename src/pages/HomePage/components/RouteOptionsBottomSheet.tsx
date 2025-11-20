@@ -42,8 +42,10 @@ export const RouteOptionsBottomSheet = ({ isOpen, close }: RouteOptionsBottomShe
                   arrival="구-라군"
                   totalTime="총 8시간 6분"
                   transferCount="환승 3회"
-                  backgroundColor="background.neutral"
-                  borderRadius="xl"
+                  containerStyle={{
+                    borderRadius: 'xl',
+                    backgroundColor: 'background.neutral',
+                  }}
                 />
                 <RouteDetail p="5" borderWidth="1px" borderStyle="solid" borderColor="line.neutral" borderRadius="xl">
                   <RouteDetail.Station
@@ -69,8 +71,10 @@ export const RouteOptionsBottomSheet = ({ isOpen, close }: RouteOptionsBottomShe
                   arrival="구-라군"
                   totalTime="총 8시간 6분"
                   transferCount="환승 3회"
-                  backgroundColor="background.neutral"
-                  borderRadius="xl"
+                  containerStyle={{
+                    borderRadius: 'xl',
+                    backgroundColor: 'background.neutral',
+                  }}
                 />
                 <RouteDetail p="5" borderWidth="1px" borderStyle="solid" borderColor="line.neutral" borderRadius="xl">
                   <RouteDetail.Station
@@ -103,8 +107,10 @@ export const RouteOptionsBottomSheet = ({ isOpen, close }: RouteOptionsBottomShe
                   arrival="구-라군"
                   totalTime="총 8시간 6분"
                   transferCount="환승 3회"
-                  backgroundColor="background.neutral"
-                  borderRadius="xl"
+                  containerStyle={{
+                    borderRadius: 'xl',
+                    backgroundColor: 'background.neutral',
+                  }}
                 />
                 <RouteDetail p="5" borderWidth="1px" borderStyle="solid" borderColor="line.neutral" borderRadius="xl">
                   <RouteDetail.Station

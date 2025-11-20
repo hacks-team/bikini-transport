@@ -9,7 +9,7 @@ import { openStationBottomSheet } from './StationBottomSheet';
 
 export function RouteSearchSection() {
   return (
-    <Box pb={3} borderRadius="xl" backgroundColor="background.normal" position="relative">
+    <Box as="section" pb={3} borderRadius="xl" backgroundColor="background.normal" position="relative">
       <SpongeBobImage />
       <Box pt={7} pb={4} px={5}>
         <HStack gap={4} justify="center" alignItems="center" flexDirection={{ base: 'column', xs: 'row' }}>
