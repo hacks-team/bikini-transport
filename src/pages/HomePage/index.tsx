@@ -1,8 +1,8 @@
 import { ark } from '@ark-ui/react';
 import { css } from 'styled-system/css';
 import { Box, Flex } from 'styled-system/jsx';
-import { CouponButton } from '@/components/CouponButton';
 import { Header } from '@/layout/Header';
+import { CouponButton } from '@/pages/HomePage/components/CouponButton';
 import { Button } from '@/ui-lib/components/Button';
 import { openRouteOptionsBottomSheet } from './components/RouteOptionsBottomSheet';
 import { RouteSearchSection } from './components/RouteSearchSection';
