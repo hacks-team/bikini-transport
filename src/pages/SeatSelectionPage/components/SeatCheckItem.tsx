@@ -1,106 +1,121 @@
-import { ark } from '@ark-ui/react';
+import { ark, Checkbox } from '@ark-ui/react';
 import { cva, type RecipeVariantProps } from 'styled-system/css';
 import { Box, type HTMLStyledProps, styled } from 'styled-system/jsx';
 
-const seatButtonRecipe = cva({
+const seatCheckItemRecipe = cva({
   base: {
     position: 'relative',
     display: 'inline-block',
-    border: 'none',
-    background: 'transparent',
-    padding: 0,
     textStyle: 'B2_Regular',
+    color: 'label.normal',
   },
   variants: {
     size: {
       small: {
-        width: '21px',
-        height: '21px',
+        width: '22px',
+        height: '22px',
       },
       large: {
         width: '62px',
         height: '62px',
       },
     },
-    status: {
-      available: {
-        cursor: 'pointer',
-        color: 'label.normal',
-      },
-      disabled: {
-        cursor: 'not-allowed',
-        color: 'label.disable',
-      },
-      selected: {
-        cursor: 'pointer',
+    checked: {
+      true: {
         color: 'label.inverse',
       },
     },
+    disabled: {
+      true: {
+        color: 'label.disable',
+      },
+    },
   },
-
   defaultVariants: {
     size: 'large',
-    status: 'available',
   },
 });
 
-const SeatButtonComponent = styled(ark.button, seatButtonRecipe);
+const SeatCheckItemControl = styled(Box, seatCheckItemRecipe);
 
-type SeatButtonVariantProps = RecipeVariantProps<typeof seatButtonRecipe>;
-type SeatButtonProps = SeatButtonVariantProps & {
+type SeatCheckItemVariantProps = RecipeVariantProps<typeof seatCheckItemRecipe>;
+type SeatCheckItemProps = SeatCheckItemVariantProps & {
   seatNumber?: string;
-  onClick?: () => void;
+  value?: string;
+  disabled?: boolean;
+  checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
 };
 
-export const SeatButton = ({ seatNumber, onClick, size, status, ...props }: SeatButtonProps) => {
+export const SeatCheckItem = ({
+  seatNumber,
+  value,
+  size = 'large',
+  disabled = false,
+  checked = false,
+  onCheckedChange,
+}: SeatCheckItemProps) => {
   return (
-    <SeatButtonComponent onClick={onClick} disabled={status === 'disabled'} size={size} status={status} {...props}>
-      <SeatIcon size={size} status={status} />
-      {seatNumber && (
-        <Box position="absolute" top="43%" left="48%" transform="translate(-50%, -50%)" pointerEvents="none">
-          {seatNumber}
-        </Box>
-      )}
-    </SeatButtonComponent>
+    <Checkbox.Root
+      value={value ?? seatNumber}
+      disabled={disabled}
+      checked={checked}
+      onCheckedChange={details => onCheckedChange?.(details.checked === true)}
+    >
+      <Checkbox.HiddenInput />
+      <Checkbox.Control asChild>
+        <SeatCheckItemControl size={size} checked={checked} disabled={disabled}>
+          <SeatIcon size={size} checked={checked} disabled={disabled} />
+          {seatNumber && (
+            <Box position="absolute" top="44%" left="48%" transform="translate(-50%, -50%)" pointerEvents="none">
+              {seatNumber}
+            </Box>
+          )}
+        </SeatCheckItemControl>
+      </Checkbox.Control>
+    </Checkbox.Root>
   );
 };
 
 const seatIconRecipe = cva({
+  base: {
+    cursor: 'pointer',
+    '& rect, & path': {
+      fill: 'static.white',
+      stroke: 'label.alternative',
+    },
+  },
   variants: {
     size: {
       small: {
-        width: '21px',
-        height: '21px',
+        width: '22px',
+        height: '22px',
       },
       large: {
         width: '62px',
         height: '62px',
       },
     },
-    status: {
-      available: {
-        '& rect, & path': {
-          fill: 'static.white',
-          stroke: 'label.alternative',
-        },
-      },
-      disabled: {
-        '& rect, & path': {
-          fill: 'background.alternative',
-          stroke: '#CECECF',
-        },
-      },
-      selected: {
+    checked: {
+      true: {
         '& rect, & path': {
           fill: 'primary.normal',
           stroke: 'primary.heavy',
         },
       },
     },
+    disabled: {
+      true: {
+        cursor: 'not-allowed',
+        '& rect, & path': {
+          fill: 'background.alternative',
+          stroke: '#CECECF',
+        },
+      },
+    },
   },
   defaultVariants: {
     size: 'large',
-    status: 'available',
   },
 });
 
@@ -109,7 +124,7 @@ type SeatIconVariantProps = RecipeVariantProps<typeof seatIconRecipe>;
 
 type SeatIconProps = SeatIconVariantProps & HTMLStyledProps<'svg'>;
 
-const SeatIcon = (props: SeatIconProps) => {
+export const SeatIcon = (props: SeatIconProps) => {
   return (
     <SeatIconComponent viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <rect
