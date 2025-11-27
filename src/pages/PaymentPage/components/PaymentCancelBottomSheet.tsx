@@ -29,10 +29,10 @@ export const PaymentCancelBottomSheet = ({ isOpen, close }: PaymentCancelBottomS
       }
       cta={
         <HStack>
-          <Button key="아니요" color="secondary" fullWidth onClick={() => {}}>
+          <Button color="secondary" fullWidth onClick={() => {}}>
             아니요
           </Button>
-          <Button key="결제취소" fullWidth onClick={() => {}}>
+          <Button fullWidth onClick={() => {}}>
             결제 취소
           </Button>
         </HStack>

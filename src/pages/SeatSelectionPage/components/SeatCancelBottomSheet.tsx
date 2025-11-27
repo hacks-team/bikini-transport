@@ -29,10 +29,10 @@ export const SeatCancelBottomSheet = ({ isOpen, close }: SeatCancelBottomSheetPr
       }
       cta={
         <HStack>
-          <Button key="취소" color="secondary" fullWidth onClick={() => {}}>
+          <Button color="secondary" fullWidth onClick={() => {}}>
             취소
           </Button>
-          <Button key="그만하기" fullWidth onClick={() => {}}>
+          <Button fullWidth onClick={() => {}}>
             그만하기
           </Button>
         </HStack>

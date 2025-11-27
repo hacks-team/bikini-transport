@@ -21,10 +21,10 @@ export const PaymentConfirmBottomSheet = ({ isOpen, close }: PaymentConfirmBotto
       header={<BottomSheet.Header>버스표를 결제하시겠어요?</BottomSheet.Header>}
       cta={
         <HStack>
-          <Button key="취소" color="secondary" fullWidth onClick={() => {}}>
+          <Button color="secondary" fullWidth onClick={() => {}}>
             취소
           </Button>
-          <Button key="결제하기" fullWidth onClick={() => {}}>
+          <Button fullWidth onClick={() => {}}>
             결제하기
           </Button>
         </HStack>

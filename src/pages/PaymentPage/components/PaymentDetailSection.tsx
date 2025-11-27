@@ -33,7 +33,6 @@ const TripDetails = () => {
   return (
     <PaymentDetailDescriptions.Root>
       <PaymentDetailDescriptions.ExpandableItem
-        key="route"
         label="노선"
         content={
           <RouteDetail.Root py="2">
