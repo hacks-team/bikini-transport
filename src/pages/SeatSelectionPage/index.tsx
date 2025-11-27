@@ -1,5 +1,5 @@
 import { ark } from '@ark-ui/react';
-import { Box, Flex, Spacer } from 'styled-system/jsx';
+import { Box, Flex, HStack, Spacer } from 'styled-system/jsx';
 import { Header } from '@/layout/Header';
 import { Button } from '@/ui-lib/components/Button';
 import { LeftOutlined } from '@/ui-lib/components/Icon';
@@ -28,9 +28,14 @@ export const SeatSelectionPage = () => {
       </Box>
 
       <Box px={5} py={4} flexShrink={0}>
-        <Button fullWidth onClick={() => {}}>
-          선택 완료 1/3
-        </Button>
+        <HStack>
+          <Button color="secondary" fullWidth onClick={() => {}}>
+            이전
+          </Button>
+          <Button fullWidth onClick={() => {}}>
+            다음
+          </Button>
+        </HStack>
       </Box>
     </Flex>
   );
