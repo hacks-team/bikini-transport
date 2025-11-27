@@ -18,7 +18,7 @@ export const PaymentConfirmBottomSheet = ({ isOpen, close }: PaymentConfirmBotto
     <BottomSheet
       open={isOpen}
       onDimmerClick={close}
-      header={<BottomSheet.Header>버스표 결제를 진행하시겠어요?</BottomSheet.Header>}
+      header={<BottomSheet.Header>버스표를 결제하시겠어요?</BottomSheet.Header>}
       cta={
         <HStack>
           <Button key="취소" color="secondary" fullWidth onClick={() => {}}>
@@ -44,7 +44,7 @@ export const PaymentConfirmBottomSheet = ({ isOpen, close }: PaymentConfirmBotto
           <DetailItem label="출발 일시" value="2025년 00월 00일 (수) 00:00" />
           <DetailItem label="소요 시간" value="총 00시간 00분" />
           <DetailItem label="환승 횟수" value="3회" />
-          <DetailItem label="결제 금액" value="0,000원" />
+          <DetailItem label="결제 요금" value="23₴" />
         </Grid>
       </Box>
     </BottomSheet>

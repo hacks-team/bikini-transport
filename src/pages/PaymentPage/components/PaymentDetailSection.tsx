@@ -41,19 +41,19 @@ const TripDetails = () => {
               line={{ name: '투어선', type: 'tour' }}
               stationName="비키니환초"
               travelTime="20분"
-              stopsCount="8정거장 이동"
+              stopsCount="8정류장 이동"
             />
             <RouteDetail.Station
               line={{ name: '시티선', type: 'city' }}
               stationName="징징빌라"
               travelTime="20분"
-              stopsCount="8정거장 이동"
+              stopsCount="8정류장 이동"
             />
             <RouteDetail.Station
               line={{ name: '외곽선', type: 'suburb' }}
               stationName="다시마 숲"
               travelTime="20분"
-              stopsCount="8정거장 이동"
+              stopsCount="8정류장 이동"
             />
             <RouteDetail.ArrivalStation stationName="구-라군" lineType="suburb" />
           </RouteDetail.Root>
@@ -80,15 +80,15 @@ const PriceDetails = () => {
       <PaymentDetailDescriptions.Item label="요금" containerStyle={{ justify: 'space-between' }}>
         <HStack>
           <Typography variant="C2_Medium" color="label.disable" textDecoration="line-through">
-            23,700원
+            25₴
           </Typography>
           <Typography variant="B1_Bold" color="label.normal">
-            10,000원
+            23₴
           </Typography>
         </HStack>
       </PaymentDetailDescriptions.Item>
 
-      <PaymentDetailDescriptions.Item label="할인" containerStyle={{ justify: 'space-between' }}>
+      <PaymentDetailDescriptions.Item label="쿠폰함" containerStyle={{ justify: 'space-between' }}>
         <AddCouponButton />
       </PaymentDetailDescriptions.Item>
     </PaymentDetailDescriptions.Root>

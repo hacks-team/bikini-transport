@@ -21,7 +21,7 @@ export const CouponBottomSheet = ({ isOpen, close }: CouponBottomSheetProps) => 
     <BottomSheet
       open={isOpen}
       onDimmerClick={close}
-      header={<BottomSheet.Header>할인</BottomSheet.Header>}
+      header={<BottomSheet.Header>쿠폰함</BottomSheet.Header>}
       cta={
         <Button key="사용하기" fullWidth onClick={() => {}}>
           사용하기

@@ -5,16 +5,16 @@ import { Button } from '@/ui-lib/components/Button';
 import { ExclamationCircleFilled } from '@/ui-lib/components/Icon';
 import { Typography } from '@/ui-lib/components/Typography';
 
-interface PaymentCancelBottomSheetProps {
+interface SeatCancelBottomSheetProps {
   isOpen: boolean;
   close: () => void;
 }
 
-export const openPaymentCancelBottomSheet = () => {
-  return overlay.open(({ isOpen, close }) => <PaymentCancelBottomSheet isOpen={isOpen} close={close} />);
+export const openSeatCancelBottomSheet = () => {
+  return overlay.open(({ isOpen, close }) => <SeatCancelBottomSheet isOpen={isOpen} close={close} />);
 };
 
-export const PaymentCancelBottomSheet = ({ isOpen, close }: PaymentCancelBottomSheetProps) => {
+export const SeatCancelBottomSheet = ({ isOpen, close }: SeatCancelBottomSheetProps) => {
   return (
     <BottomSheet
       open={isOpen}
@@ -23,17 +23,17 @@ export const PaymentCancelBottomSheet = ({ isOpen, close }: PaymentCancelBottomS
         <VStack gap={3} pt={5}>
           <ExclamationCircleFilled />
           <Typography variant="H2_Bold" color="label.normal">
-            결제를 취소하시겠어요?
+            좌석 선택을 그만하시겠어요?
           </Typography>
         </VStack>
       }
       cta={
         <HStack>
-          <Button key="아니요" color="secondary" fullWidth onClick={() => {}}>
-            아니요
+          <Button key="취소" color="secondary" fullWidth onClick={() => {}}>
+            취소
           </Button>
-          <Button key="결제취소" fullWidth onClick={() => {}}>
-            결제 취소
+          <Button key="그만하기" fullWidth onClick={() => {}}>
+            그만하기
           </Button>
         </HStack>
       }
