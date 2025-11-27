@@ -1,9 +1,9 @@
-import { RadioGroup } from '@ark-ui/react';
+import { ark, RadioGroup } from '@ark-ui/react';
 import { overlay } from 'overlay-kit';
+import { css } from 'styled-system/css';
 import { Box, VStack } from 'styled-system/jsx';
 import { BottomSheet } from '@/ui-lib/components/BottomSheet';
 import { Button } from '@/ui-lib/components/Button';
-import { ExclamationCircleFilled } from '@/ui-lib/components/Icon';
 import { Typography } from '@/ui-lib/components/Typography';
 import { CouponRadioItem } from './CouponRadioItem';
 
@@ -28,6 +28,10 @@ export const CouponBottomSheet = ({ isOpen, close }: CouponBottomSheetProps) => 
         </Button>
       }
     >
+      {/* 보유한 쿠폰이 없을 경우, 아래 컴포넌트를 보여주세요 */}
+      {/* <NoCoupon /> */}
+
+      {/* 보유한 쿠폰이 있을 경우, 아래 컴포넌트를 보여주세요 */}
       <Box p={5}>
         <RadioGroup.Root
           defaultValue="PEARL_PASS"
@@ -63,16 +67,21 @@ export const CouponBottomSheet = ({ isOpen, close }: CouponBottomSheetProps) => 
   );
 };
 
-// 보유한 쿠폰이 없을 경우, 아래 컴포넌트를 보여주세요
 const NoCoupon = () => {
   return (
     <VStack gap="3" p="5" height="540px" justifyContent="center">
-      <ExclamationCircleFilled size={36} />
+      <ark.img
+        src="/emply-spongebob.png"
+        className={css({
+          width: '180px',
+          height: '180px',
+        })}
+      />
       <Typography variant="H2_Bold" color="label.normal">
-        보유한 쿠폰이 없어요
+        사용할 수 있는 쿠폰이 없어요
       </Typography>
       <Typography variant="B1_Medium" color="label.alternative">
-        쿠폰은 메인 페이지에서 랜덤으로 획득할 수 있어요
+        쿠폰은 메인 화면에서 랜덤으로 획득할 수 있어요
       </Typography>
     </VStack>
   );

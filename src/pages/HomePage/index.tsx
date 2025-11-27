@@ -26,11 +26,12 @@ export const HomePage = () => {
         <Box px="2.5" hidden={true}>
           <CouponButton
             onClick={() => {
+              // 할인 쿠폰이 정상적으로 발급되었을 경우, 아래 토스트 메시지를 띄워주세요
               toaster.success({
                 title: '할인 쿠폰이 발급 되었어요',
               });
 
-              // 보유 가능한 쿠폰 수량이 초과되었을 경우, 아래 메시지를 띄워주세요
+              // 보유 가능한 쿠폰 수량이 초과되었을 경우, 아래 토스트 메시지를 띄워주세요
               // toaster.warning({
               //   title: '보유 가능한 쿠폰 수량을 초과해 발급할 수 없어요',
               // });

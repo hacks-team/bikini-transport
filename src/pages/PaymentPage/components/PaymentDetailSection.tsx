@@ -88,7 +88,11 @@ const PriceDetails = () => {
       </PaymentDetailDescriptions.Item>
 
       <PaymentDetailDescriptions.Item label="쿠폰함" containerStyle={{ justify: 'space-between' }}>
+        {/* 쿠폰을 선택하지 않았을 경우, 아래 컴포넌트를 보여주세요 */}
         <AddCouponButton />
+
+        {/* 쿠폰을 선택했을 경우, 아래 컴포넌트를 보여주세요 */}
+        {/* <AppliedCouponButton /> */}
       </PaymentDetailDescriptions.Item>
     </PaymentDetailDescriptions.Root>
   );
@@ -102,7 +106,6 @@ const AddCouponButton = () => {
   );
 };
 
-// 쿠폰을 선택했을 경우, 아래 컴포넌트를 보여주세요
 const AppliedCouponButton = () => {
   return (
     <Button color="secondary" size="small" icon={<CloseOutlined size={16} />} iconPosition="end" onClick={() => {}}>

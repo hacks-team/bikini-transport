@@ -1,10 +1,11 @@
+import { ark } from '@ark-ui/react';
 import { overlay } from 'overlay-kit';
+import { css } from 'styled-system/css';
 import { Flex, VStack } from 'styled-system/jsx';
 import { RouteDetail } from '@/components/RouteDetail';
 import { TripSummary } from '@/components/TripSummary';
 import { BottomSheet } from '@/ui-lib/components/BottomSheet';
 import { Button } from '@/ui-lib/components/Button';
-import { ExclamationCircleFilled } from '@/ui-lib/components/Icon';
 import { Tabs } from '@/ui-lib/components/Tabs';
 import { Typography } from '@/ui-lib/components/Typography';
 
@@ -29,6 +30,10 @@ export const RouteOptionsBottomSheet = ({ isOpen, close }: RouteOptionsBottomShe
         </Button>
       }
     >
+      {/* 예약 가능한 버스표가 없을 경우, 아래 컴포넌트를 보여주세요 */}
+      {/* <TicketSoldOut /> */}
+
+      {/* 예약 가능한 버스표가 있을 경우, 아래 컴포넌트를 보여주세요 */}
       <Tabs
         items={[
           {
@@ -157,11 +162,16 @@ export const RouteOptionsBottomSheet = ({ isOpen, close }: RouteOptionsBottomShe
   );
 };
 
-// 예약 가능한 버스표가 없을 경우, 아래 컴포넌트를 보여주세요
 const TicketSoldOut = () => {
   return (
     <VStack gap="3" p="5" height="540px" justifyContent="center">
-      <ExclamationCircleFilled size={36} />
+      <ark.img
+        src="/empty-patrick.png"
+        className={css({
+          width: '180px',
+          height: '180px',
+        })}
+      />
       <Typography variant="H2_Bold" color="label.normal">
         버스표가 모두 매진되었어요
       </Typography>
