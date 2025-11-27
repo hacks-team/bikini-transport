@@ -16,6 +16,17 @@ const toast = sva({
       borderRadius: 'xl',
       width: 'full',
       backgroundColor: 'static.darkGrayAlpha',
+
+      translate: 'var(--x) var(--y)',
+      scale: 'var(--scale)',
+      zIndex: 'var(--z-index)',
+      height: 'var(--height)',
+      opacity: 'var(--opacity)',
+
+      willChange: 'translate, opacity, scale',
+      transition: 'translate 400ms, scale 400ms, opacity 400ms, height 400ms',
+      transitionTimingFunction: 'cubic-bezier(0.21, 1.02, 0.73, 1)',
+
       animation: 'slideUp 0.3s ease-out',
       '&[data-state="closed"]': {
         animation: 'slideDown 0.3s ease-in',
@@ -50,7 +61,7 @@ const toast = sva({
 export const toaster = createToaster({
   placement: 'bottom',
   overlap: true,
-  gap: 24,
+  gap: 16,
   offsets: {
     top: '0',
     right: '20px',
