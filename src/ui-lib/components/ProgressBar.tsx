@@ -1,83 +1,72 @@
-import { ark } from '@ark-ui/react';
+import { Progress } from '@ark-ui/react';
 import { forwardRef } from 'react';
-import { cva, type RecipeVariantProps } from 'styled-system/css';
-import { type HTMLStyledProps, styled } from 'styled-system/jsx';
+import { sva } from 'styled-system/css';
 
-const progressBarRecipe = cva({
+const progressBar = sva({
+  slots: ['root', 'track', 'range'],
   base: {
-    position: 'relative',
-    w: 'full',
-    overflow: 'hidden',
+    root: {
+      position: 'relative',
+      w: 'full',
+    },
+    track: {
+      w: 'full',
+      overflow: 'hidden',
+      position: 'relative',
+      backgroundColor: 'background.alternative',
+    },
+    range: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      h: 'full',
+      backgroundColor: 'primary.normal',
+      transition: 'width 0.3s ease-in-out',
+    },
   },
-
   variants: {
     size: {
       small: {
-        h: 1,
+        track: { h: 1 },
       },
       medium: {
-        h: 1.5,
+        track: { h: 1.5 },
       },
       large: {
-        h: 2,
+        track: { h: 2 },
       },
     },
   },
-
   defaultVariants: {
     size: 'medium',
   },
 });
 
-type ProgressBarVariantProps = RecipeVariantProps<typeof progressBarRecipe>;
-
 type ProgressBarProps = {
-  ref?: React.Ref<HTMLDivElement>;
   /**
    * 진행률 (0 ~ 1 사이의 값)
    */
   value: number;
   /**
-   * 배경색
-   * @default 'background.alternative'
+   * 크기
+   * @default 'medium'
    */
-  backgroundColor?: string;
-  /**
-   * 진행 바 색상
-   * @default 'primary.normal'
-   */
-  progressColor?: string;
-} & ProgressBarVariantProps &
-  HTMLStyledProps<'div'>;
-
-const ProgressBarContainer = styled(ark.div, progressBarRecipe);
+  size?: 'small' | 'medium' | 'large';
+};
 
 export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>((props, ref) => {
-  const {
-    value,
-    size = 'medium',
-    backgroundColor = 'background.alternative',
-    progressColor = 'primary.normal',
-    ...rest
-  } = props;
+  const { value, size = 'medium' } = props;
 
   const clampedValue = Math.min(Math.max(value, 0), 1);
   const percentage = clampedValue * 100;
+  const classes = progressBar({ size });
 
   return (
-    <ProgressBarContainer ref={ref} size={size} backgroundColor={backgroundColor} {...rest}>
-      <styled.div
-        position="absolute"
-        top={0}
-        left={0}
-        h="full"
-        backgroundColor={progressColor}
-        transition="width 0.3s ease-in-out"
-        style={{
-          width: `${percentage}%`,
-        }}
-      />
-    </ProgressBarContainer>
+    <Progress.Root ref={ref} value={percentage} className={classes.root}>
+      <Progress.Track className={classes.track}>
+        <Progress.Range className={classes.range} />
+      </Progress.Track>
+    </Progress.Root>
   );
 });
 
