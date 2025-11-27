@@ -1,12 +1,13 @@
 import { css } from 'styled-system/css';
-import type { ColorToken } from 'styled-system/tokens';
+import { type ColorToken, token } from 'styled-system/tokens';
 
 interface IconProps {
   size?: number;
   color?: ColorToken;
+  innerColor?: ColorToken;
 }
 
-export const CheckCircleFilled = ({ size = 24, color = 'primary.normal' }: IconProps) => (
+export const CheckCircleFilled = ({ size = 24, color = 'primary.normal', innerColor = 'static.white' }: IconProps) => (
   <svg
     width={size}
     height={size}
@@ -16,7 +17,13 @@ export const CheckCircleFilled = ({ size = 24, color = 'primary.normal' }: IconP
     className={css({ color })}
   >
     <circle cx="12" cy="12" r="8.5" fill="currentColor" stroke="currentColor" />
-    <path d="M8 11.5L11 14.5L16 9.5" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path
+      d="M8 11.5L11 14.5L16 9.5"
+      stroke={token(`colors.${innerColor}`)}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
@@ -144,7 +151,11 @@ export const CircleFilled = ({ size = 2, color = 'label.alternative' }: IconProp
   </svg>
 );
 
-export const ExclamationCircleFilled = ({ size = 36, color = 'primary.normal' }: IconProps) => (
+export const ExclamationCircleFilled = ({
+  size = 36,
+  color = 'primary.normal',
+  innerColor = 'static.white',
+}: IconProps) => (
   <svg
     width={size}
     height={size}
@@ -162,9 +173,9 @@ export const ExclamationCircleFilled = ({ size = 36, color = 'primary.normal' }:
     />
     <path
       d="M18 22.5C17.175 22.5 16.5 23.175 16.5 24C16.5 24.825 17.175 25.5 18 25.5C18.825 25.5 19.5 24.825 19.5 24C19.5 23.175 18.825 22.5 18 22.5Z"
-      fill="white"
+      fill={token(`colors.${innerColor}`)}
     />
-    <path d="M18 12V18" stroke="white" strokeWidth="2" strokeLinecap="round" />
+    <path d="M18 12V18" stroke={token(`colors.${innerColor}`)} strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 
