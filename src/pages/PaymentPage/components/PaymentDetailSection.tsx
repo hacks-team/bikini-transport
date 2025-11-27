@@ -42,21 +42,18 @@ const TripDetails = () => {
               stationName="비키니환초"
               travelTime="20분"
               stopsCount="8정거장 이동"
-              waitingTime="12분 50초"
             />
             <RouteDetail.Station
               line={{ name: '시티선', type: 'city' }}
               stationName="징징빌라"
               travelTime="20분"
               stopsCount="8정거장 이동"
-              waitingTime="10분 50초"
             />
             <RouteDetail.Station
               line={{ name: '외곽선', type: 'suburb' }}
               stationName="다시마 숲"
               travelTime="20분"
               stopsCount="8정거장 이동"
-              waitingTime="30분 3초"
             />
             <RouteDetail.ArrivalStation stationName="구-라군" lineType="suburb" />
           </RouteDetail.Root>

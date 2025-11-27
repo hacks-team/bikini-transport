@@ -26,7 +26,7 @@ export const PaymentPage = () => {
       </Box>
 
       <Box px={5} py={4} flexShrink={0}>
-        <Button fullWidth onClick={openPaymentConfirmBottomSheet} onClick={() => {}}>
+        <Button fullWidth onClick={openPaymentConfirmBottomSheet}>
           결제하기
         </Button>
       </Box>
