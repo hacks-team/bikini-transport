@@ -60,7 +60,7 @@ export const RightOutlined = ({ size = 24, color = 'static.lightGray' }: IconPro
   </svg>
 );
 
-export const SwapRightOutlined = ({ size = 16, color = 'label.normal' }: IconProps) => (
+export const SwapRightOutlined = ({ size = 24, color = 'label.normal' }: IconProps) => (
   <svg
     width={size}
     height={size}
@@ -125,7 +125,7 @@ export const CloseCircleFilled = ({ size = 24, color = 'label.normal' }: IconPro
   </svg>
 );
 
-export const CircleOutlined = ({ size = 10, color = 'label.normal' }: IconProps) => (
+export const CircleOutlined = ({ size = 24, color = 'label.normal' }: IconProps) => (
   <svg
     width={size}
     height={size}
@@ -138,7 +138,7 @@ export const CircleOutlined = ({ size = 10, color = 'label.normal' }: IconProps)
   </svg>
 );
 
-export const CircleFilled = ({ size = 2, color = 'label.alternative' }: IconProps) => (
+export const CircleFilled = ({ size = 24, color = 'label.alternative' }: IconProps) => (
   <svg
     width={size}
     height={size}
@@ -152,7 +152,7 @@ export const CircleFilled = ({ size = 2, color = 'label.alternative' }: IconProp
 );
 
 export const ExclamationCircleFilled = ({
-  size = 36,
+  size = 24,
   color = 'primary.normal',
   innerColor = 'static.white',
 }: IconProps) => (
@@ -179,26 +179,7 @@ export const ExclamationCircleFilled = ({
   </svg>
 );
 
-export const UpOutlined = ({ size = 16, color = 'label.normal' }: IconProps) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={css({ color })}
-  >
-    <path
-      d="M13.3334 10.6663L8.00002 5.33301L2.66669 10.6663"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-export const DownOutlined = ({ size = 16, color = 'label.normal' }: IconProps) => (
+export const DownOutlined = ({ size = 24, color = 'label.normal' }: IconProps) => (
   <svg
     width={size}
     height={size}
@@ -284,7 +265,7 @@ export const SyncOutlined = ({ size = 24, color = 'label.neutral' }: IconProps) 
   </svg>
 );
 
-export const SuccessCircleFilled = ({ size = 90, color = 'primary.normal' }: IconProps) => (
+export const SuccessCircleFilled = ({ size = 24, color = 'primary.normal' }: IconProps) => (
   <svg
     width={size}
     height={size}

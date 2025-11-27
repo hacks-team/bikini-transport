@@ -21,7 +21,7 @@ export const PaymentSuccessPage = () => {
 
       <Box flex="1" overflowY="auto" py="25vh">
         <Flex direction="column" alignItems="center" gap="20px">
-          <SuccessCircleFilled />
+          <SuccessCircleFilled size={90} />
           <Typography variant="H0_Bold" color="label.normal">
             결제가 완료되었어요
           </Typography>

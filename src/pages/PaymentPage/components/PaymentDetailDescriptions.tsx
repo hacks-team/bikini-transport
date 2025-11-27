@@ -44,7 +44,7 @@ const PaymentDetailDescriptionsExpandableItem = ({
           key: 'item',
           label: <PaymentDetailDescriptionsItem {...itemProps} />,
           children: content,
-          indicator: <DownOutlined />,
+          indicator: <DownOutlined size={16} />,
         },
       ]}
     />

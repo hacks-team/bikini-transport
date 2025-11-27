@@ -21,7 +21,7 @@ export const SeatCancelBottomSheet = ({ isOpen, close }: SeatCancelBottomSheetPr
       onDimmerClick={close}
       header={
         <VStack gap={3} pt={5}>
-          <ExclamationCircleFilled />
+          <ExclamationCircleFilled size={36} />
           <Typography variant="H2_Bold" color="label.normal">
             좌석 선택을 그만하시겠어요?
           </Typography>

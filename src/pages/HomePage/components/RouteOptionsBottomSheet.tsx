@@ -161,7 +161,7 @@ export const RouteOptionsBottomSheet = ({ isOpen, close }: RouteOptionsBottomShe
 const TicketSoldOut = () => {
   return (
     <VStack gap="3" p="5" height="540px" justifyContent="center">
-      <ExclamationCircleFilled />
+      <ExclamationCircleFilled size={36} />
       <Typography variant="H2_Bold" color="label.normal">
         버스표가 모두 매진되었어요
       </Typography>

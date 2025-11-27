@@ -21,7 +21,7 @@ export const PaymentCancelBottomSheet = ({ isOpen, close }: PaymentCancelBottomS
       onDimmerClick={close}
       header={
         <VStack gap={3} pt={5}>
-          <ExclamationCircleFilled />
+          <ExclamationCircleFilled size={36} />
           <Typography variant="H2_Bold" color="label.normal">
             결제를 취소하시겠어요?
           </Typography>
