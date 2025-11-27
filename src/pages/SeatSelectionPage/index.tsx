@@ -12,7 +12,7 @@ export const SeatSelectionPage = () => {
     <Flex direction="column" height="screen">
       <Header>
         <Header.Left>
-          <ark.button>
+          <ark.button onClick={() => {}}>
             <LeftOutlined />
           </ark.button>
         </Header.Left>
@@ -28,7 +28,9 @@ export const SeatSelectionPage = () => {
       </Box>
 
       <Box px={5} py={4} flexShrink={0}>
-        <Button fullWidth>선택 완료 1/3</Button>
+        <Button fullWidth onClick={() => {}}>
+          선택 완료 1/3
+        </Button>
       </Box>
     </Flex>
   );

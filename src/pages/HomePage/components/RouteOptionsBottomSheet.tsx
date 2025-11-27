@@ -24,7 +24,7 @@ export const RouteOptionsBottomSheet = ({ isOpen, close }: RouteOptionsBottomShe
       onDimmerClick={close}
       header={<BottomSheet.Header>버스표 선택</BottomSheet.Header>}
       cta={
-        <Button key="결제" fullWidth>
+        <Button key="결제" fullWidth onClick={() => {}}>
           10,000원 결제하기
         </Button>
       }

@@ -12,7 +12,7 @@ export const PaymentPage = () => {
     <Flex direction="column" height="screen">
       <Header>
         <Header.Left>
-          <ark.button>
+          <ark.button onClick={() => {}}>
             <CloseOutlined />
           </ark.button>
         </Header.Left>
@@ -26,7 +26,7 @@ export const PaymentPage = () => {
       </Box>
 
       <Box px={5} py={4} flexShrink={0}>
-        <Button fullWidth onClick={openPaymentConfirmBottomSheet}>
+        <Button fullWidth onClick={openPaymentConfirmBottomSheet} onClick={() => {}}>
           결제하기
         </Button>
       </Box>

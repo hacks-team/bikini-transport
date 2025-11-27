@@ -23,7 +23,7 @@ export const HomePage = () => {
         </Box>
 
         <Box px="2.5" hidden={false}>
-          <CouponButton />
+          <CouponButton onClick={() => {}} />
         </Box>
       </Flex>
 

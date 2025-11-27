@@ -13,7 +13,7 @@ export const PaymentSuccessPage = () => {
           <Typography variant="H1_Bold">결제 완료</Typography>
         </Header.Center>
         <Header.Right>
-          <ark.button>
+          <ark.button onClick={() => {}}>
             <CloseOutlined />
           </ark.button>
         </Header.Right>
@@ -29,7 +29,9 @@ export const PaymentSuccessPage = () => {
       </Box>
 
       <Box px={5} py={4} flexShrink={0}>
-        <Button fullWidth>확인</Button>
+        <Button fullWidth onClick={() => {}}>
+          확인
+        </Button>
       </Box>
     </Flex>
   );

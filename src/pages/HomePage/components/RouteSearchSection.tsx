@@ -13,7 +13,7 @@ export const RouteSearchSection = () => {
       <Box pt={7} pb={4} px={5}>
         <HStack gap={4} justify="center" alignItems="center" flexDirection={{ base: 'column', xs: 'row' }}>
           <StationButton label="출발" value="비키니시티" placeholder="출발역 선택" onClick={openStationBottomSheet} />
-          <SwapButton />
+          <SwapButton onClick={() => {}} />
           <StationButton label="도착" value="구-라군" placeholder="도착역 선택" onClick={openStationBottomSheet} />
         </HStack>
       </Box>
