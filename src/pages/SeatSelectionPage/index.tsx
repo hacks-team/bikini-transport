@@ -32,9 +32,9 @@ export const SeatSelectionPage = () => {
 
       <Box px={5} py={4} flexShrink={0}>
         <HStack>
-          <Button color="secondary" fullWidth onClick={() => {}}>
+          {/* <Button color="secondary" fullWidth onClick={() => {}}>
             이전
-          </Button>
+          </Button> */}
           <Button fullWidth onClick={() => {}}>
             다음
           </Button>
