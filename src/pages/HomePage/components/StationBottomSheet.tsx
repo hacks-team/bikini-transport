@@ -86,7 +86,6 @@ const StationListItem = ({ name, onClick }: { name: string; onClick?: () => void
           {name}
         </Typography>
       </ark.button>
-      <Divider color="line.alternative" />
     </Box>
   );
 };
