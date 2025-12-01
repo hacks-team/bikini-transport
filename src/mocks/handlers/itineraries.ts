@@ -127,4 +127,39 @@ const calculateFareHandler = http.post<{ itineraryId: string }, { couponCode?: s
   }
 );
 
-export const itineraryHandlers = [searchItinerariesHandler, calculateFareHandler];
+/**
+ * GET /api/itineraries/:itineraryId
+ * itineraryId로 여정 조회
+ */
+const getItineraryByIdHandler = http.get<{ itineraryId: string }>(
+  '/api/itineraries/:itineraryId',
+  async ({ params }) => {
+    await delay(100);
+
+    const itineraryId = params.itineraryId as string | undefined;
+    if (!itineraryId) {
+      return HttpResponse.json(
+        {
+          error: 'INVALID_REQUEST',
+          message: 'itineraryId가 필요합니다',
+        },
+        { status: 400 }
+      );
+    }
+
+    const itinerary = getItineraryById(itineraryId);
+    if (!itinerary) {
+      return HttpResponse.json(
+        {
+          error: 'ITINERARY_NOT_FOUND',
+          message: '여정을 찾을 수 없습니다',
+        },
+        { status: 404 }
+      );
+    }
+
+    return HttpResponse.json(itinerary);
+  }
+);
+
+export const itineraryHandlers = [searchItinerariesHandler, calculateFareHandler, getItineraryByIdHandler];
