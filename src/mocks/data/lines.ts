@@ -50,28 +50,6 @@ export const lines: Line[] = [
     },
   },
   {
-    lineId: LINE_UUIDS.SUBURBAN_LINE,
-    name: '외곽선',
-    type: 'SUBURBAN',
-    color: '#b7dcca', // 연한 청록색
-    stationIds: [
-      STATION_UUIDS.BIKINI_CITY, // 비키니 시티 (출발)
-      STATION_UUIDS.ROCK_BOTTOM, // 메롱시티
-      STATION_UUIDS.BUBBLE_TOWN, // 버블시티
-      STATION_UUIDS.BIKINI_ATOLL, // 비키니 환초
-      STATION_UUIDS.TENTACLE_ACRES, // 징징빌라
-    ],
-    baseFare: 25.0, // 기본요금 25₴
-    extraFarePerStop: 8.0, // 정거장당 추가 요금 8₴
-    transferDiscount1st: 0.15, // 1회 환승 15% 할인
-    transferDiscount2nd: 0.25, // 2회 이상 환승 25% 할인
-    schedule: {
-      firstDeparture: '05:00', // 첫차
-      lastDeparture: '21:30', // 막차
-      intervalMinutes: 90, // 배차간격 1시간 30분
-    },
-  },
-  {
     lineId: LINE_UUIDS.TOUR_LINE,
     name: '투어선',
     type: 'TOUR',
@@ -93,6 +71,29 @@ export const lines: Line[] = [
       intervalMinutes: 60, // 배차간격 1시간
     },
   },
+
+  {
+    lineId: LINE_UUIDS.SUBURBAN_LINE,
+    name: '외곽선',
+    type: 'SUBURBAN',
+    color: '#b7dcca', // 연한 청록색
+    stationIds: [
+      STATION_UUIDS.BIKINI_CITY, // 비키니 시티 (출발)
+      STATION_UUIDS.ROCK_BOTTOM, // 메롱시티
+      STATION_UUIDS.BUBBLE_TOWN, // 버블시티
+      STATION_UUIDS.BIKINI_ATOLL, // 비키니 환초
+      STATION_UUIDS.TENTACLE_ACRES, // 징징빌라
+    ],
+    baseFare: 25.0, // 기본요금 25₴
+    extraFarePerStop: 8.0, // 정거장당 추가 요금 8₴
+    transferDiscount1st: 0.15, // 1회 환승 15% 할인
+    transferDiscount2nd: 0.25, // 2회 이상 환승 25% 할인
+    schedule: {
+      firstDeparture: '05:00', // 첫차
+      lastDeparture: '21:30', // 막차
+      intervalMinutes: 90, // 배차간격 1시간 30분
+    },
+  },
 ];
 
 /**
@@ -107,8 +108,8 @@ type LineDirection = 'BIDIRECTIONAL' | 'UNIDIRECTIONAL';
  */
 const LINE_DIRECTIONS: Record<string, LineDirection> = {
   [LINE_UUIDS.CITY_LINE]: 'BIDIRECTIONAL',
-  [LINE_UUIDS.SUBURBAN_LINE]: 'UNIDIRECTIONAL',
   [LINE_UUIDS.TOUR_LINE]: 'BIDIRECTIONAL',
+  [LINE_UUIDS.SUBURBAN_LINE]: 'UNIDIRECTIONAL',
 };
 
 /**

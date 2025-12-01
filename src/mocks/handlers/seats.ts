@@ -1,6 +1,9 @@
 import { delay, HttpResponse, http } from 'msw';
+import type { components } from '@/generated/api-types';
 import { createSeatLayout } from '../data/seats';
 import { getReservedSeats } from '../storage';
+
+type SeatLayout = components['schemas']['SeatLayout'];
 
 /**
  * GET /api/legs/:legId/seats
@@ -15,8 +18,8 @@ export const seatHandlers = [
     // getReservedSeats는 실제 예약 + 런타임 랜덤 예약 모두 반환
     const reserved = getReservedSeats(legId as string);
 
-    const seatLayout = createSeatLayout(legId as string, reserved);
+    const seatLayout: SeatLayout = createSeatLayout(legId as string, reserved);
 
-    return HttpResponse.json(seatLayout);
+    return HttpResponse.json<SeatLayout>(seatLayout);
   }),
 ];

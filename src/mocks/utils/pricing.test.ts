@@ -22,7 +22,6 @@ describe('요금 계산 (Pricing)', () => {
     legId: `test-leg-${lineId}`,
     lineId,
     lineName: lines.find(l => l.lineId === lineId)?.name || '',
-    lineColor: lines.find(l => l.lineId === lineId)?.color || '',
     fromStation: getStationById(fromStationId)!,
     toStation: getStationById(toStationId)!,
     fromStationIndex: 0,

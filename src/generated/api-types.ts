@@ -75,6 +75,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/itineraries/{itineraryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 여정 조회
+         * @description itineraryId로 저장된 여정 정보를 조회합니다.
+         *     경로 검색 후 저장된 여정의 상세 정보를 확인할 수 있습니다.
+         */
+        get: operations["getItineraryById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/itineraries/{itineraryId}/calculate-fare": {
         parameters: {
             query?: never;
@@ -524,7 +545,14 @@ export interface components {
              */
             seatNumber?: string;
             /**
-             * @description 예약 여부 (type이 SEAT일 때만 존재, true면 선택 불가)
+             * @description 좌석 상태 (type이 SEAT일 때만 존재). AVAILABLE=선택 가능, RESERVED=이미 예약된 좌석(선택 불가). SELECTED 상태는 클라이언트에서만 사용하며 API 응답에는 포함되지 않습니다.
+             * @example AVAILABLE
+             * @enum {string}
+             */
+            status?: "AVAILABLE" | "RESERVED";
+            /**
+             * @deprecated
+             * @description 예약 여부 (type이 SEAT일 때만 존재, true면 선택 불가). deprecated - status 필드를 사용하세요.
              * @example false
              */
             isReserved?: boolean;
@@ -812,6 +840,50 @@ export interface operations {
                         /** @description 최저요금 경로 (없으면 null) */
                         lowestFare?: components["schemas"]["ItineraryRecommendation"] | null;
                     };
+                };
+            };
+        };
+    };
+    getItineraryById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /**
+                 * @description 여정 ID
+                 * @example itinerary-0
+                 */
+                itineraryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 성공 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Itinerary"];
+                };
+            };
+            /** @description 잘못된 요청 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description 여정을 찾을 수 없음 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
                 };
             };
         };

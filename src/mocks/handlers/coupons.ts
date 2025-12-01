@@ -47,9 +47,13 @@ const claimCouponHandler = http.post('/api/coupons/claim', async ({ request }) =
   if (!result.success) {
     let message = '쿠폰을 받을 수 없습니다';
     if (result.error === 'MAX_COUPON_EXCEEDED') {
-      message = '이미 최대 개수를 보유 중입니다';
+      message = '보유 가능한 쿠폰 수량을 초과해 발급할 수 없어요';
     } else if (result.error === 'COUPON_NOT_FOUND') {
       message = '존재하지 않는 쿠폰입니다';
+    } else if (result.error === 'COUPON_EXPIRED') {
+      message = '쿠폰이 만료되었습니다';
+    } else if (result.error === 'COUPON_ALREADY_OWNED') {
+      message = '이미 보유한 쿠폰입니다';
     }
 
     return HttpResponse.json(

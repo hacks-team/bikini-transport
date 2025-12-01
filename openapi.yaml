@@ -193,8 +193,9 @@ paths:
         1. 각 구간의 기본 요금 계산
         2. 환승 할인 적용 (환승된 구간만)
         3. 쿠폰 할인 적용
-           - PEARL_PASS: 첫 탑승 노선 기본요금에서 2₴ 차감
-           - GARY_NIGHT/TOUR_FUN: 각 구간에서 환승할인과 비교하여 큰 값 적용
+           - PEARL_PASS: 각 구간마다 기본요금에서 2₴ 차감 (모든 구간 적용)
+           - GARY_NIGHT: 야간(21시~05시) 탑승 구간에서 환승할인과 비교하여 큰 값 적용
+           - TOUR_FUN: 투어선 구간에서 환승할인 적용 후 30% 할인
 
         **주의사항:**
         - 같은 노선을 계속 타면 환승으로 계산되지 않음
@@ -219,6 +220,11 @@ paths:
                   nullable: true
                   description: 적용할 쿠폰 코드 (소유한 쿠폰의 UUID)
                   example: "550e8400-e29b-41d4-a716-446655440000"
+                departureTime:
+                  type: string
+                  format: date-time
+                  description: 출발 시간 (ISO 8601). 달팽이패스 등 시간 조건 쿠폰 계산에 사용됩니다. 미입력 시 현재 시각 사용.
+                  example: '2025-01-15T22:00:00Z'
       responses:
         '200':
           description: 요금 계산 성공
@@ -414,8 +420,9 @@ paths:
         1. 각 구간의 기본 요금 계산 (baseFare만 사용)
         2. 환승 할인 적용 (갈아타는 노선에만)
         3. 쿠폰 할인 적용
-           - PEARL_PASS: 첫 탑승 노선 기본요금에서 2₴ 차감
-           - GARY_NIGHT/TOUR_FUN: 환승할인과 비교하여 큰 값 적용
+           - PEARL_PASS: 각 구간마다 기본요금에서 2₴ 차감 (모든 구간 적용)
+           - GARY_NIGHT: 야간(21시~05시) 탑승 구간에서 환승할인과 비교하여 큰 값 적용
+           - TOUR_FUN: 투어선 구간에서 환승할인 적용 후 30% 할인
 
         **주의사항:**
         - 같은 노선을 계속 타면 환승으로 계산되지 않음
@@ -599,7 +606,6 @@ components:
         - legId
         - lineType
         - lineName
-        - lineColor
         - fromStation
         - toStation
         - durationMinutes
@@ -622,10 +628,6 @@ components:
           type: string
           description: 노선 이름
           example: 시티선
-        lineColor:
-          type: string
-          description: 노선 색상 (Hex)
-          example: '#FFC107'
         fromStation:
           $ref: '#/components/schemas/Station'
         toStation:
@@ -653,7 +655,6 @@ components:
         - legId
         - lineId
         - lineName
-        - lineColor
         - fromStation
         - toStation
         - fromStationIndex
@@ -678,10 +679,6 @@ components:
           type: string
           description: 노선 이름
           example: 시티선
-        lineColor:
-          type: string
-          description: 노선 색상
-          example: '#FFC107'
         fromStation:
           $ref: '#/components/schemas/Station'
         toStation:
@@ -850,10 +847,13 @@ components:
           type: string
           description: 좌석 번호 (1A~6D, type이 SEAT일 때만 존재)
           example: 2C
-        isReserved:
-          type: boolean
-          description: 예약 여부 (type이 SEAT일 때만 존재, true면 선택 불가)
-          example: false
+        status:
+          type: string
+          enum:
+            - AVAILABLE
+            - RESERVED
+          description: 좌석 상태 (type이 SEAT일 때만 존재). AVAILABLE=선택 가능, RESERVED=이미 예약된 좌석(선택 불가). SELECTED 상태는 클라이언트에서만 사용하며 API 응답에는 포함되지 않습니다.
+          example: AVAILABLE
 
     SeatLayout:
       type: object

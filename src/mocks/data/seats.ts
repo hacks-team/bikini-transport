@@ -60,7 +60,7 @@ function generateSeats(): Seat[] {
           seatNumber: seatNumber!,
           row,
           column,
-          isReserved: false,
+          status: 'AVAILABLE' as const,
         });
       }
     }
@@ -83,9 +83,11 @@ export function createSeatLayout(legId: string, reservedSeats: string[] = []): S
     }
 
     // 좌석만 예약 상태 확인
+    // API 응답에서는 AVAILABLE 또는 RESERVED만 반환 (SELECTED는 클라이언트 상태)
+    const isReserved = reservedSeats.includes(seat.seatNumber!);
     return {
       ...seat,
-      isReserved: reservedSeats.includes(seat.seatNumber!),
+      status: (isReserved ? 'RESERVED' : 'AVAILABLE') as 'AVAILABLE' | 'RESERVED',
     };
   });
 

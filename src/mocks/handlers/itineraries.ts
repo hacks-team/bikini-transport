@@ -68,7 +68,10 @@ const searchItinerariesHandler = http.get('/api/itineraries/search', async ({ re
  * POST /api/itineraries/:itineraryId/calculate-fare
  * 요금 계산 (결제 전 미리보기)
  */
-const calculateFareHandler = http.post<{ itineraryId: string }, { couponCode?: string | null }>(
+const calculateFareHandler = http.post<
+  { itineraryId: string },
+  { couponCode?: string | null; departureTime?: string }
+>(
   '/api/itineraries/:itineraryId/calculate-fare',
   async ({ request, params }) => {
     await delay(200);
@@ -96,22 +99,33 @@ const calculateFareHandler = http.post<{ itineraryId: string }, { couponCode?: s
     }
 
     let couponType: string | undefined;
+    let couponUuid: string | undefined;
+    let departureTime: Date = new Date();
     try {
-      const body = (await request.json()) as { couponCode?: string | null };
-      const couponUuid = body?.couponCode || undefined;
+      const body = (await request.json()) as { couponCode?: string | null; departureTime?: string };
+      couponUuid = body?.couponCode || undefined;
 
       // UUID로 쿠폰 타입 조회 (소유한 쿠폰)
       if (couponUuid) {
         couponType = getCouponTypeById(couponUuid);
         // 소유하지 않은 쿠폰이면 할인 적용 안함
       }
+
+      // 출발 시각 파싱 (달팽이패스 등 시간 조건 쿠폰 계산용)
+      if (body?.departureTime) {
+        const parsedTime = new Date(body.departureTime);
+        if (!Number.isNaN(parsedTime.getTime())) {
+          departureTime = parsedTime;
+        }
+      }
     } catch {
       couponType = undefined;
+      couponUuid = undefined;
     }
 
-    // 쿠폰 적용 요금 계산
+    // 쿠폰 적용 요금 계산 (departureTime 사용)
     const linesMap = new Map(lines.map(line => [line.lineId, line]));
-    const pricing = calculateFinalBookingPrice(storedItinerary.legs, couponType || undefined, new Date(), linesMap);
+    const pricing = calculateFinalBookingPrice(storedItinerary.legs, couponType || undefined, departureTime, linesMap);
 
     const routeFare = pricing.subtotal - pricing.transferDiscount;
 
@@ -122,7 +136,7 @@ const calculateFareHandler = http.post<{ itineraryId: string }, { couponCode?: s
       routeFare,
       couponDiscount: pricing.couponDiscount,
       finalTotal: pricing.finalTotal,
-      appliedCouponCode: couponType || null,
+      appliedCouponCode: couponUuid || null, // UUID 반환 (프론트엔드에서 선택한 쿠폰과 매칭 가능)
     });
   }
 );

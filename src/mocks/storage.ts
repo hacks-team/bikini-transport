@@ -147,6 +147,14 @@ export function addCouponToUser(couponId: string): {
     };
   }
 
+  // 이미 소유한 쿠폰인지 확인 (중복 수령 방지)
+  if (userCoupons.has(uuid)) {
+    return {
+      success: false,
+      error: 'COUPON_ALREADY_OWNED',
+    };
+  }
+
   // 현재 소유한 해당 타입 쿠폰 개수 체크
   const currentCount = Array.from(userCoupons.values()).filter(
     c => c.couponType === instance.couponType

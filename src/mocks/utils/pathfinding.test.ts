@@ -344,7 +344,6 @@ describe('경로 찾기 (Pathfinding)', () => {
       expect(leg).toHaveProperty('legId');
       expect(leg).toHaveProperty('lineType');
       expect(leg).toHaveProperty('lineName');
-      expect(leg).toHaveProperty('lineColor');
       expect(leg).toHaveProperty('fromStation');
       expect(leg).toHaveProperty('toStation');
       expect(leg).toHaveProperty('durationMinutes');
