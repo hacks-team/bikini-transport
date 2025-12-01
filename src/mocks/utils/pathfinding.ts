@@ -1,7 +1,7 @@
 import type { components } from '@/generated/api-types';
-import { getStationById, stations } from '../data/stations';
-import { getStopsCount, isBidirectional, lines } from '../data/lines';
 import { getDuration } from '../data/duration-map';
+import { getStopsCount, isBidirectional, lines } from '../data/lines';
+import { getStationById, stations } from '../data/stations';
 import { saveItineraries } from '../storage';
 import { calculateItineraryPricing, calculateLegsWithTransferDiscount } from './pricing';
 import { addMinutesToTime, calculateWaitTime, getNextDeparture } from './schedule-utils';
@@ -222,35 +222,29 @@ export function createItinerary(
   // 환승 할인 적용
   const legsWithDiscount = calculateLegsWithTransferDiscount(legs, linesMap);
 
-  // 각 구간의 대기 시간 계산
-  const legsWithWaitTime = legsWithDiscount.map((leg, index) => {
-    if (index === 0) {
-      // 첫 구간: 대기 시간 없음
-      return { ...leg, waitTimeMinutes: 0 };
-    }
+  // 각 구간의 대기 시간 계산 (첫 구간 포함)
+  // 대기 시간은 순차적으로 계산해야 하므로 reduce 사용
+  const legsWithWaitTime: Leg[] = [];
+  let currentTime = new Date(departureTime);
 
-    // 이전 구간의 도착 시각 계산
-    let currentTime = new Date(departureTime);
-    for (let i = 0; i < index; i++) {
-      const prevLeg = legsWithDiscount[i];
-      currentTime = addMinutesToTime(currentTime, prevLeg.waitTimeMinutes || 0);
-      currentTime = addMinutesToTime(currentTime, prevLeg.durationMinutes);
-    }
-
-    // 환승역 도착 시각
-    const arrivalAtTransferStation = currentTime;
-
-    // 다음 노선의 다음 출발 시각
+  for (let index = 0; index < legsWithDiscount.length; index++) {
+    const leg = legsWithDiscount[index];
     const line = linesMap.get(leg.lineId);
-    if (!line) {
-      return { ...leg, waitTimeMinutes: 0 };
+
+    let waitTimeMinutes = 0;
+
+    if (line) {
+      // 현재 시각에서 해당 노선의 다음 출발 시각 계산
+      const nextDeparture = getNextDeparture(line, currentTime, leg.fromStation.stationId);
+      waitTimeMinutes = calculateWaitTime(currentTime, nextDeparture);
     }
 
-    const nextDeparture = getNextDeparture(line, arrivalAtTransferStation, leg.fromStation.stationId);
-    const waitTime = calculateWaitTime(arrivalAtTransferStation, nextDeparture);
+    legsWithWaitTime.push({ ...leg, waitTimeMinutes });
 
-    return { ...leg, waitTimeMinutes: waitTime };
-  });
+    // 다음 구간을 위해 현재 시각 업데이트 (대기 시간 + 이동 시간)
+    currentTime = addMinutesToTime(currentTime, waitTimeMinutes);
+    currentTime = addMinutesToTime(currentTime, leg.durationMinutes);
+  }
 
   // 요금 계산
   const pricing = calculateItineraryPricing(legsWithWaitTime);
@@ -286,6 +280,8 @@ function convertToLegSummary(leg: Leg, line: Line): LegSummary {
     fromStation: leg.fromStation,
     toStation: leg.toStation,
     durationMinutes: leg.durationMinutes,
+    waitTimeMinutes: leg.waitTimeMinutes || 0,
+    stopsCount: leg.stopsCount,
   };
 }
 
@@ -360,9 +356,7 @@ export function searchItineraries(
   saveItineraries(allItineraries);
 
   // 1. 최단시간 경로
-  const shortestTimeItinerary = [...allItineraries].sort(
-    (a, b) => a.totalDurationMinutes - b.totalDurationMinutes
-  )[0];
+  const shortestTimeItinerary = [...allItineraries].sort((a, b) => a.totalDurationMinutes - b.totalDurationMinutes)[0];
 
   // 2. 최소환승 경로
   const minTransferItinerary = [...allItineraries].sort((a, b) => a.transferCount - b.transferCount)[0];
@@ -373,7 +367,9 @@ export function searchItineraries(
   )[0];
 
   return {
-    shortestTime: shortestTimeItinerary ? convertToRecommendation(shortestTimeItinerary, departureTime, linesMap) : null,
+    shortestTime: shortestTimeItinerary
+      ? convertToRecommendation(shortestTimeItinerary, departureTime, linesMap)
+      : null,
     minTransfer: minTransferItinerary ? convertToRecommendation(minTransferItinerary, departureTime, linesMap) : null,
     lowestFare: lowestFareItinerary ? convertToRecommendation(lowestFareItinerary, departureTime, linesMap) : null,
   };

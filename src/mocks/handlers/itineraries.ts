@@ -1,6 +1,6 @@
 import { delay, HttpResponse, http } from 'msw';
 import { lines } from '../data/lines';
-import { getItineraryById, getRealCouponCode } from '../storage';
+import { getCouponTypeById, getItineraryById } from '../storage';
 import { searchItineraries } from '../utils/pathfinding';
 import { calculateFinalBookingPrice } from '../utils/pricing';
 
@@ -8,7 +8,7 @@ import { calculateFinalBookingPrice } from '../utils/pricing';
  * GET /api/itineraries/search
  * 경로 검색
  */
-const searchItineraryHandler = http.get('/api/itineraries/search', async ({ request }: { request: Request }) => {
+const searchItinerariesHandler = http.get('/api/itineraries/search', async ({ request }: { request: Request }) => {
   await delay(300); // 경로 검색은 좀 더 시간이 걸림
 
   const url = new URL(request.url);
@@ -95,23 +95,23 @@ const calculateFareHandler = http.post<{ itineraryId: string }, { couponCode?: s
       );
     }
 
-    let realCouponCode: string | undefined;
+    let couponType: string | undefined;
     try {
       const body = (await request.json()) as { couponCode?: string | null };
       const couponUuid = body?.couponCode || undefined;
 
-      // UUID로 실제 쿠폰 코드 조회 (소유한 쿠폰)
+      // UUID로 쿠폰 타입 조회 (소유한 쿠폰)
       if (couponUuid) {
-        realCouponCode = getRealCouponCode(couponUuid);
+        couponType = getCouponTypeById(couponUuid);
         // 소유하지 않은 쿠폰이면 할인 적용 안함
       }
     } catch {
-      realCouponCode = undefined;
+      couponType = undefined;
     }
 
     // 쿠폰 적용 요금 계산
     const linesMap = new Map(lines.map(line => [line.lineId, line]));
-    const pricing = calculateFinalBookingPrice(storedItinerary.legs, realCouponCode || undefined, new Date(), linesMap);
+    const pricing = calculateFinalBookingPrice(storedItinerary.legs, couponType || undefined, new Date(), linesMap);
 
     const routeFare = pricing.subtotal - pricing.transferDiscount;
 
@@ -122,9 +122,9 @@ const calculateFareHandler = http.post<{ itineraryId: string }, { couponCode?: s
       routeFare,
       couponDiscount: pricing.couponDiscount,
       finalTotal: pricing.finalTotal,
-      appliedCouponCode: realCouponCode || null,
+      appliedCouponCode: couponType || null,
     });
   }
 );
 
-export const itineraryHandlers = [searchItineraryHandler, calculateFareHandler];
+export const itineraryHandlers = [searchItinerariesHandler, calculateFareHandler];

@@ -186,7 +186,7 @@ export function TestApiPage() {
     try {
       setError(null);
       startLoading('랜덤 쿠폰 조회');
-      const response = await fetch('/api/coupons/random-popup');
+      const response = await fetch('/api/coupons/random');
       const data = await response.json();
       setRandomCoupon(data.coupon);
       setRandomCouponFetched(true);

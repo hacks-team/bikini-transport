@@ -296,7 +296,6 @@ GET /api/legs/leg-city-line-0/seats
       "row": 0,
       "column": 0,
       "position": "WINDOW",
-      "isAvailable": true,
       "isReserved": false
     }
   ]
