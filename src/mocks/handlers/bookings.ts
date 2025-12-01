@@ -1,6 +1,6 @@
 import { delay, HttpResponse, http } from 'msw';
 import { lines } from '../data/lines';
-import { applyCoupon, getCouponTypeById, getCoupons, getItineraryById, reserveSeats, saveBooking } from '../storage';
+import { applyCoupon, getCoupons, getCouponTypeById, getItineraryById, reserveSeats, saveBooking } from '../storage';
 import { calculateFinalBookingPrice } from '../utils/pricing';
 
 /**
@@ -80,12 +80,7 @@ const createBookingHandler = http.post('/api/bookings', async ({ request }) => {
   }
 
   // 가격 계산
-  const pricing = calculateFinalBookingPrice(
-    itinerary.legs,
-    couponType,
-    new Date(departureTime),
-    linesMap
-  );
+  const pricing = calculateFinalBookingPrice(itinerary.legs, couponType, new Date(departureTime), linesMap);
 
   // 쿠폰 정보 미리 조회 (사용 전)
   let appliedCouponInfo: ReturnType<typeof getCoupons>[0] | undefined;

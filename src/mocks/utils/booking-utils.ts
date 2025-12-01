@@ -32,10 +32,7 @@ export function sortBookings(
  *
  * 순수 함수로 원본을 변경하지 않고 새 배열 반환
  */
-export function filterBookingsByStatus(
-  bookingsList: Booking[],
-  status?: 'CONFIRMED' | 'CANCELLED'
-): Booking[] {
+export function filterBookingsByStatus(bookingsList: Booking[], status?: 'CONFIRMED' | 'CANCELLED'): Booking[] {
   if (!status) {
     return bookingsList;
   }
@@ -67,5 +64,4 @@ export const byPriceAsc = (a: Booking, b: Booking) => a.pricing.finalTotal - b.p
 /**
  * 편의 함수: 상태 필터
  */
-export const byStatus = (status: 'CONFIRMED' | 'CANCELLED') => (booking: Booking) =>
-  booking.status === status;
+export const byStatus = (status: 'CONFIRMED' | 'CANCELLED') => (booking: Booking) => booking.status === status;

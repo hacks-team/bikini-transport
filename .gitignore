@@ -41,3 +41,9 @@ styled-system-studio
 
 .claude
 claude.md
+
+# Serena
+.serena/
+
+# Public openapi.yaml (should only exist at root)
+public/openapi.yaml

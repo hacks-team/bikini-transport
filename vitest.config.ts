@@ -7,8 +7,7 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     globals: true,
-    setupFiles: ['./src/test-setup.ts'],
-    include: ['__tests__/HomePage.test.tsx', '__tests__/PaymentPage.test.tsx', '__tests__/SeatSelectionPage.test.tsx'],
+    include: ['src/mocks/**/*.test.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
