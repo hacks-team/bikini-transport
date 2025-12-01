@@ -1,6 +1,6 @@
 import { delay, HttpResponse, http } from 'msw';
 import { lines } from '../data/lines';
-import { applyCoupon, createBooking, getItineraryById, getMyCoupons, getRealCouponCode, reserveSeats } from '../storage';
+import { applyCoupon, getCoupons, getCouponTypeById, getItineraryById, reserveSeats, saveBooking } from '../storage';
 import { calculateFinalBookingPrice } from '../utils/pricing';
 
 /**
@@ -30,11 +30,11 @@ const createBookingHandler = http.post('/api/bookings', async ({ request }) => {
     );
   }
 
-  // UUID로 실제 쿠폰 코드 조회 (소유한 쿠폰)
-  let realCouponCode: string | undefined;
+  // 쿠폰 타입 조회 (UUID로 소유한 쿠폰 확인)
+  let couponType: string | undefined;
   if (couponUuid) {
-    realCouponCode = getRealCouponCode(couponUuid);
-    if (!realCouponCode) {
+    couponType = getCouponTypeById(couponUuid);
+    if (!couponType) {
       return HttpResponse.json(
         {
           error: 'COUPON_NOT_OWNED',
@@ -80,17 +80,12 @@ const createBookingHandler = http.post('/api/bookings', async ({ request }) => {
   }
 
   // 가격 계산
-  const pricing = calculateFinalBookingPrice(
-    itinerary.legs,
-    realCouponCode || undefined,
-    new Date(departureTime),
-    linesMap
-  );
+  const pricing = calculateFinalBookingPrice(itinerary.legs, couponType, new Date(departureTime), linesMap);
 
   // 쿠폰 정보 미리 조회 (사용 전)
-  let appliedCouponInfo: ReturnType<typeof getMyCoupons>[0] | undefined;
+  let appliedCouponInfo: ReturnType<typeof getCoupons>[0] | undefined;
   if (couponUuid) {
-    appliedCouponInfo = getMyCoupons().find(c => c.couponCode === couponUuid);
+    appliedCouponInfo = getCoupons().find((c: ReturnType<typeof getCoupons>[0]) => c.couponCode === couponUuid);
   }
 
   // 쿠폰 사용 처리 (UUID 기반)
@@ -108,7 +103,7 @@ const createBookingHandler = http.post('/api/bookings', async ({ request }) => {
   }
 
   // 예약 생성
-  const booking = createBooking({
+  const booking = saveBooking({
     itinerary,
     seatSelections: seatSelectionsWithIndex,
     appliedCoupon: appliedCouponInfo,
@@ -123,7 +118,15 @@ const createBookingHandler = http.post('/api/bookings', async ({ request }) => {
     },
   });
 
-  return HttpResponse.json(booking, { status: 201 });
+  // 응답에는 bookingId, bookingNumber, status만 포함
+  return HttpResponse.json(
+    {
+      bookingId: booking.bookingId,
+      bookingNumber: booking.bookingNumber,
+      status: booking.status,
+    },
+    { status: 201 }
+  );
 });
 
 export const bookingHandlers = [createBookingHandler];

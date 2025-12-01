@@ -75,6 +75,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/itineraries/{itineraryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 여정 조회
+         * @description itineraryId로 저장된 여정 정보를 조회합니다.
+         *     경로 검색 후 저장된 여정의 상세 정보를 확인할 수 있습니다.
+         */
+        get: operations["getItineraryById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/itineraries/{itineraryId}/calculate-fare": {
         parameters: {
             query?: never;
@@ -126,7 +147,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/coupons/random-popup": {
+    "/coupons/random": {
         parameters: {
             query?: never;
             header?: never;
@@ -134,7 +155,7 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 랜덤 쿠폰 팝업 조회
+         * 랜덤 쿠폰 조회
          * @description 확률 기반으로 랜덤 쿠폰을 반환합니다.
          *     쿠폰이 출현하지 않으면 null을 반환합니다.
          *
@@ -144,7 +165,7 @@ export interface paths {
          *
          *     **중요:** couponCode는 UUID 형태로 반환되며, 1분 이내에 /coupons/claim으로 등록해야 합니다.
          */
-        get: operations["getRandomCouponPopup"];
+        get: operations["getRandomCoupon"];
         put?: never;
         post?: never;
         delete?: never;
@@ -165,7 +186,7 @@ export interface paths {
         /**
          * 쿠폰 받기
          * @description 랜덤 쿠폰을 획득합니다.
-         *     random-popup에서 받은 UUID를 1분 이내에 제시해야 합니다.
+         *     /coupons/random에서 받은 UUID를 1분 이내에 제시해야 합니다.
          *     최대 소지 개수를 초과하면 에러를 반환합니다.
          */
         post: operations["claimCoupon"];
@@ -186,7 +207,7 @@ export interface paths {
          * 내 보유 쿠폰 목록 조회
          * @description 현재 사용자가 보유한 모든 쿠폰 목록을 반환합니다.
          */
-        get: operations["getMyCoupons"];
+        get: operations["getCoupons"];
         put?: never;
         post?: never;
         delete?: never;
@@ -338,10 +359,23 @@ export interface components {
             fromStation: components["schemas"]["Station"];
             toStation: components["schemas"]["Station"];
             /**
-             * @description 이 구간의 소요 시간 (분)
+             * @description 이 구간의 이동 소요 시간 (분)
              * @example 25
              */
             durationMinutes: number;
+            /**
+             * @description 이 구간 탑승 전 대기 시간 (분)
+             *     - 첫 구간: 요청한 출발 시각 기준 다음 버스까지 대기 시간
+             *     - 환승 구간: 이전 구간 도착 후 다음 버스까지 대기 시간
+             *     - 프론트엔드에서 "15분 대기 후 탑승" 등으로 표시 가능
+             * @example 0
+             */
+            waitTimeMinutes: number;
+            /**
+             * @description 정거장 수 (출발역 포함)
+             * @example 4
+             */
+            stopsCount: number;
         };
         Leg: {
             /**
@@ -490,33 +524,38 @@ export interface components {
         };
         Seat: {
             /**
-             * @description 좌석 번호 (1A~6D)
-             * @example 2C
+             * @description 요소 타입 (좌석 또는 통로)
+             * @example SEAT
+             * @enum {string}
              */
-            seatNumber: string;
+            type: "SEAT" | "AISLE";
             /**
              * @description 행 번호 (0부터 시작, 0~5)
              * @example 1
              */
             row: number;
             /**
-             * @description 열 번호 (0=A, 1=B, 2=C, 3=D)
+             * @description 열 번호 (0~4, 0=A, 1=B, 2=통로, 3=C, 4=D)
              * @example 2
              */
             column: number;
             /**
-             * @description 좌석 위치
-             *     - WINDOW: A열(왼쪽 창), D열(오른쪽 창)
-             *     - AISLE: B열, C열
-             * @example AISLE
+             * @description 좌석 번호 (1A~6D, type이 SEAT일 때만 존재)
+             * @example 2C
+             */
+            seatNumber?: string;
+            /**
+             * @description 좌석 상태 (type이 SEAT일 때만 존재). AVAILABLE=선택 가능, RESERVED=이미 예약된 좌석(선택 불가). SELECTED 상태는 클라이언트에서만 사용하며 API 응답에는 포함되지 않습니다.
+             * @example AVAILABLE
              * @enum {string}
              */
-            position: "WINDOW" | "AISLE";
+            status?: "AVAILABLE" | "RESERVED";
             /**
-             * @description 예약된 좌석 여부 (true면 선택 불가)
+             * @deprecated
+             * @description 예약 여부 (type이 SEAT일 때만 존재, true면 선택 불가). deprecated - status 필드를 사용하세요.
              * @example false
              */
-            isReserved: boolean;
+            isReserved?: boolean;
         };
         SeatLayout: {
             /**
@@ -530,14 +569,14 @@ export interface components {
              */
             rows: number;
             /**
-             * @description 총 열 수 (고정값 4)
-             * @example 4
+             * @description 총 열 수 (고정값 5)
+             * @example 5
              */
             columns: number;
             /**
-             * @description 전체 좌석 목록 (1A~6D, 총 24개)
+             * @description 전체 요소 목록 (좌석 24개 + 통로 6개 = 총 30개)
              *
-             *     좌석 배치:
+             *     레이아웃:
              *     1A  1B  [통로]  1C  1D
              *     2A  2B  [통로]  2C  2D
              *     3A  3B  [통로]  3C  3D
@@ -550,8 +589,7 @@ export interface components {
         /** @description 쿠폰 기본 정보 (사용자 독립적) */
         CouponDefinition: {
             /**
-             * Format: uuid
-             * @description 쿠폰 고유 식별자 (UUID). 사용자가 소유한 쿠폰을 구별하는 ID로, random-popup 또는 claim 시 발급됩니다.
+             * @description 쿠폰 고유 식별자 (UUID). 사용자가 소유한 쿠폰을 구별하는 ID로, 랜덤 쿠폰 조회 또는 쿠폰 받기 시 발급됩니다.
              * @example 550e8400-e29b-41d4-a716-446655440000
              */
             couponCode: string;
@@ -806,6 +844,50 @@ export interface operations {
             };
         };
     };
+    getItineraryById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /**
+                 * @description 여정 ID
+                 * @example itinerary-0
+                 */
+                itineraryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 성공 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Itinerary"];
+                };
+            };
+            /** @description 잘못된 요청 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description 여정을 찾을 수 없음 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
     calculateFare: {
         parameters: {
             query?: never;
@@ -922,7 +1004,7 @@ export interface operations {
             };
         };
     };
-    getRandomCouponPopup: {
+    getRandomCoupon: {
         parameters: {
             query?: never;
             header?: never;
@@ -955,7 +1037,7 @@ export interface operations {
             content: {
                 "application/json": {
                     /**
-                     * @description random-popup에서 받은 쿠폰 UUID (1분간 유효)
+                     * @description 랜덤 쿠폰 조회에서 받은 쿠폰 UUID (1분간 유효)
                      * @example 550e8400-e29b-41d4-a716-446655440000
                      */
                     couponCode: string;
@@ -991,7 +1073,7 @@ export interface operations {
             };
         };
     };
-    getMyCoupons: {
+    getCoupons: {
         parameters: {
             query?: never;
             header?: never;
@@ -1056,7 +1138,24 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Booking"];
+                    "application/json": {
+                        /**
+                         * @description 예약 고유 ID
+                         * @example booking-123
+                         */
+                        bookingId: string;
+                        /**
+                         * @description 예약 번호 (사용자용)
+                         * @example BKN-20250115-1234
+                         */
+                        bookingNumber: string;
+                        /**
+                         * @description 예약 상태
+                         * @example CONFIRMED
+                         * @enum {string}
+                         */
+                        status: "CONFIRMED" | "CANCELLED";
+                    };
                 };
             };
             /** @description 잘못된 요청 (좌석 중복, 쿠폰 오류 등) */

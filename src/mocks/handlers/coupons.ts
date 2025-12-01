@@ -1,12 +1,12 @@
 import { delay, HttpResponse, http } from 'msw';
 import { getRandomCoupon } from '../data/coupons';
-import { claimCoupon, getMyCoupons, storeCouponInstance } from '../storage';
+import { addCouponToUser, getCoupons, saveCoupon } from '../storage';
 
 /**
- * GET /api/coupons/random-popup
- * 랜덤 쿠폰 팝업 조회 (UUID 생성)
+ * GET /api/coupons/random
+ * 랜덤 쿠폰 조회 (UUID 생성)
  */
-const randomPopupHandler = http.get('/api/coupons/random-popup', async () => {
+const randomCouponHandler = http.get('/api/coupons/random', async () => {
   await delay(50);
 
   const result = getRandomCoupon();
@@ -18,7 +18,7 @@ const randomPopupHandler = http.get('/api/coupons/random-popup', async () => {
   }
 
   // 쿠폰 인스턴스 저장 (1분 TTL)
-  storeCouponInstance(result.uuid, result.coupon.couponCode, result.expiresAt);
+  saveCoupon(result.uuid, result.coupon.couponCode, result.expiresAt);
 
   // couponCode를 UUID로 변경하여 반환
   return HttpResponse.json({
@@ -42,14 +42,18 @@ const claimCouponHandler = http.post('/api/coupons/claim', async ({ request }) =
 
   const { couponCode } = body;
 
-  const result = claimCoupon(couponCode);
+  const result = addCouponToUser(couponCode);
 
   if (!result.success) {
     let message = '쿠폰을 받을 수 없습니다';
     if (result.error === 'MAX_COUPON_EXCEEDED') {
-      message = '이미 최대 개수를 보유 중입니다';
+      message = '보유 가능한 쿠폰 수량을 초과해 발급할 수 없어요';
     } else if (result.error === 'COUPON_NOT_FOUND') {
       message = '존재하지 않는 쿠폰입니다';
+    } else if (result.error === 'COUPON_EXPIRED') {
+      message = '쿠폰이 만료되었습니다';
+    } else if (result.error === 'COUPON_ALREADY_OWNED') {
+      message = '이미 보유한 쿠폰입니다';
     }
 
     return HttpResponse.json(
@@ -68,16 +72,16 @@ const claimCouponHandler = http.post('/api/coupons/claim', async ({ request }) =
 
 /**
  * GET /api/coupons/my
- * 내 보유 쿠폰 목록
+ * 보유 쿠폰 목록 조회
  */
-const myCouponsHandler = http.get('/api/coupons/my', async () => {
+const getMyCouponsHandler = http.get('/api/coupons/my', async () => {
   await delay(100);
 
-  const coupons = getMyCoupons();
+  const coupons = getCoupons();
 
   return HttpResponse.json({
     coupons,
   });
 });
 
-export const couponHandlers = [randomPopupHandler, claimCouponHandler, myCouponsHandler];
+export const couponHandlers = [randomCouponHandler, claimCouponHandler, getMyCouponsHandler];

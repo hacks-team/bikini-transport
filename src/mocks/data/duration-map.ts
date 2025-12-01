@@ -24,8 +24,9 @@ export const durationMap: Record<string, number> = {
   [`${STATION_UUIDS.NEW_KELP_CITY}|${STATION_UUIDS.GLOVE_WORLD}`]: 45,
   [`${STATION_UUIDS.GLOVE_WORLD}|${STATION_UUIDS.NEW_KELP_CITY}`]: 45,
 
-  [`${STATION_UUIDS.GLOVE_WORLD}|${STATION_UUIDS.BIKINI_CITY}`]: 55, // 긴 외곽 구간
-  [`${STATION_UUIDS.BIKINI_CITY}|${STATION_UUIDS.GLOVE_WORLD}`]: 55,
+  // 시티선 순환 경로 (글러브월드 ↔ 비키니시티)
+  [`${STATION_UUIDS.GLOVE_WORLD}|${STATION_UUIDS.BIKINI_CITY}`]: 55, // 긴 외곽 구간 (시티선)
+  [`${STATION_UUIDS.BIKINI_CITY}|${STATION_UUIDS.GLOVE_WORLD}`]: 55, // 시티선 순환 (양방향)
 
   // 외곽선 (단방향만) - 청록색 노선, 가장 외곽 지역 연결
   // 단방향: 비키니 시티 → 메롱시티 → 버블타운 → 비키니 환초 → 징징빌라 → 비키니 시티
@@ -36,11 +37,15 @@ export const durationMap: Record<string, number> = {
   [`${STATION_UUIDS.TENTACLE_ACRES}|${STATION_UUIDS.BIKINI_CITY}`]: 80, // 다시 중심으로
 
   // 투어선 (양방향) - 빨간색 노선, 관광 특화
-  // 순환: 비키니 시티 → 글러브월드 → 다시마숲 → 구-라군 → 해파리 초원 → 비키니 시티
-  [`${STATION_UUIDS.BIKINI_CITY}|${STATION_UUIDS.GLOVE_WORLD}`]: 40,
+  // 순환: 비키니 시티 → 글러브월드 → 켈프 숲 → 구-라군 → 해파리 초원 → 비키니 시티
+  // 주의: BIKINI_CITY ↔ GLOVE_WORLD는 시티선(55분)과 투어선(40분) 모두 거치지만
+  // getDuration은 노선 구분 없이 키만으로 조회하므로, 나중에 정의된 값이 사용됨
+  // 따라서 pathfinding 시 올바른 노선을 선택해야 정확한 소요시간을 얻을 수 있음
+
+  [`${STATION_UUIDS.BIKINI_CITY}|${STATION_UUIDS.GLOVE_WORLD}`]: 40, // 투어선 직접 경로
   [`${STATION_UUIDS.GLOVE_WORLD}|${STATION_UUIDS.BIKINI_CITY}`]: 40,
 
-  [`${STATION_UUIDS.GLOVE_WORLD}|${STATION_UUIDS.KELP_FOREST}`]: 50, // 다시마숲까지
+  [`${STATION_UUIDS.GLOVE_WORLD}|${STATION_UUIDS.KELP_FOREST}`]: 50, // 켈프 숲까지
   [`${STATION_UUIDS.KELP_FOREST}|${STATION_UUIDS.GLOVE_WORLD}`]: 50,
 
   [`${STATION_UUIDS.KELP_FOREST}|${STATION_UUIDS.GOO_LAGOON}`]: 45, // 구-라군까지

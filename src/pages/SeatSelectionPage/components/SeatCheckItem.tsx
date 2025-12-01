@@ -55,6 +55,8 @@ export const SeatCheckItem = ({
   checked = false,
   onCheckedChange,
 }: SeatCheckItemProps) => {
+  const status = disabled ? 'disabled' : checked ? 'selected' : 'available';
+
   return (
     <Checkbox.Root
       value={value ?? seatNumber}
@@ -64,7 +66,14 @@ export const SeatCheckItem = ({
     >
       <Checkbox.HiddenInput />
       <Checkbox.Control asChild>
-        <SeatCheckItemControl size={size} checked={checked} disabled={disabled}>
+        <SeatCheckItemControl
+          size={size}
+          checked={checked}
+          disabled={disabled}
+          data-status={status}
+          role="button"
+          aria-label={seatNumber}
+        >
           <SeatIcon size={size} checked={checked} disabled={disabled} />
           {seatNumber && (
             <Box position="absolute" top="44%" left="48%" transform="translate(-50%, -50%)" pointerEvents="none">

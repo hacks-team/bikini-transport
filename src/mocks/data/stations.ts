@@ -72,7 +72,7 @@ export const stations: Station[] = [
   },
   {
     stationId: STATION_UUIDS.KELP_FOREST,
-    name: '다시마숲',
+    name: '켈프 숲',
   },
   {
     stationId: STATION_UUIDS.JELLYFISH_FIELDS,
